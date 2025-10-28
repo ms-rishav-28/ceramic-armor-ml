@@ -1,0 +1,149 @@
+# NIST Web Scraping Configuration
+# URLs and patterns for scraping NIST ceramic property databases
+
+# Base URLs for NIST databases
+base_urls:
+  webbook: "https://webbook.nist.gov"
+  materials: "https://www.nist.gov/mml/acmd"
+  ceramics: "https://www.ceramics.nist.gov"
+
+# Search endpoints
+search_endpoints:
+  webbook_search: "https://webbook.nist.gov/cgi/cbook.cgi"
+  materials_search: "https://www.nist.gov/search"
+
+# Ceramic system search terms
+ceramic_search_terms:
+  SiC:
+    - "silicon carbide"
+    - "SiC"
+    - "carborundum"
+    - "silicon-carbide"
+  Al2O3:
+    - "aluminum oxide"
+    - "alumina"
+    - "Al2O3"
+    - "corundum"
+    - "aluminum-oxide"
+  B4C:
+    - "boron carbide"
+    - "B4C"
+    - "boron-carbide"
+  WC:
+    - "tungsten carbide"
+    - "WC"
+    - "tungsten-carbide"
+  TiC:
+    - "titanium carbide"
+    - "TiC"
+    - "titanium-carbide"
+  Si3N4:
+    - "silicon nitride"
+    - "Si3N4"
+    - "silicon-nitride"
+  AlN:
+    - "aluminum nitride"
+    - "AlN"
+    - "aluminum-nitride"
+
+# Property extraction patterns (regex)
+property_patterns:
+  density:
+    - "density[:\\s]*([0-9]+\\.?[0-9]*)[\\s]*(g/cm³|g/cm3|kg/m³|kg/m3)"
+    - "ρ[:\\s]*([0-9]+\\.?[0-9]*)[\\s]*(g/cm³|g/cm3)"
+  youngs_modulus:
+    - "young['\\'s\\s]*modulus[:\\s]*([0-9]+\\.?[0-9]*)[\\s]*(gpa|mpa|pa)"
+    - "elastic[\\s]*modulus[:\\s]*([0-9]+\\.?[0-9]*)[\\s]*(gpa|mpa)"
+    - "E[:\\s]*([0-9]+\\.?[0-9]*)[\\s]*(gpa|mpa)"
+  vickers_hardness:
+    - "vickers[:\\s]*hardness[:\\s]*([0-9]+\\.?[0-9]*)[\\s]*(gpa|hv|kg/mm²)"
+    - "hardness[:\\s]*([0-9]+\\.?[0-9]*)[\\s]*(gpa|hv)"
+    - "HV[:\\s]*([0-9]+\\.?[0-9]*)"
+  fracture_toughness:
+    - "fracture[:\\s]*toughness[:\\s]*([0-9]+\\.?[0-9]*)[\\s]*(mpa[·√]?m|mpa\\s*m\\^?0\\.?5)"
+    - "K[Ii]c[:\\s]*([0-9]+\\.?[0-9]*)[\\s]*(mpa[·√]?m)"
+  thermal_conductivity:
+    - "thermal[:\\s]*conductivity[:\\s]*([0-9]+\\.?[0-9]*)[\\s]*(w/m[·\\s]?k|w/mk)"
+    - "λ[:\\s]*([0-9]+\\.?[0-9]*)[\\s]*(w/m[·\\s]?k)"
+  melting_point:
+    - "melting[:\\s]*point[:\\s]*([0-9]+\\.?[0-9]*)[\\s]*(°c|k|celsius)"
+    - "T[m][:\\s]*([0-9]+\\.?[0-9]*)[\\s]*(°c|k)"
+  compressive_strength:
+    - "compressive[:\\s]*strength[:\\s]*([0-9]+\\.?[0-9]*)[\\s]*(mpa|gpa)"
+    - "σ[c][:\\s]*([0-9]+\\.?[0-9]*)[\\s]*(mpa|gpa)"
+
+# Table column mappings
+column_mappings:
+  # Common variations of column names to standardize
+  formula:
+    - "material"
+    - "composition"
+    - "compound"
+    - "chemical formula"
+    - "formula"
+  density:
+    - "density (g/cm³)"
+    - "density (g/cm3)"
+    - "density"
+    - "ρ (g/cm³)"
+  youngs_modulus:
+    - "young's modulus"
+    - "young modulus"
+    - "elastic modulus"
+    - "E (GPa)"
+    - "modulus (gpa)"
+  vickers_hardness:
+    - "vickers hardness"
+    - "hardness"
+    - "HV"
+    - "hardness (gpa)"
+  fracture_toughness:
+    - "fracture toughness"
+    - "K1c"
+    - "KIc"
+    - "toughness (mpa√m)"
+  thermal_conductivity:
+    - "thermal conductivity"
+    - "thermal cond"
+    - "λ (w/m·k)"
+    - "conductivity (w/m·k)"
+
+# Unit conversions to standard units
+unit_conversions:
+  density:
+    "kg/m³": 0.001  # to g/cm³
+    "kg/m3": 0.001
+  pressure:  # For modulus, hardness, strength
+    "mpa": 0.001  # to GPa
+    "pa": 1e-9
+    "kg/mm²": 0.00981  # to GPa (approximate)
+  thermal_conductivity:
+    "w/cm·k": 100  # to W/m·K
+    "cal/cm·s·k": 418.4  # to W/m·K
+
+# Scraping settings
+scraping_settings:
+  delay_between_requests: 1.0  # seconds
+  timeout: 30  # seconds
+  max_retries: 3
+  user_agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+  
+# Quality filters
+quality_filters:
+  min_density: 1.0  # g/cm³
+  max_density: 25.0
+  min_youngs_modulus: 10  # GPa
+  max_youngs_modulus: 1000
+  min_hardness: 1  # GPa
+  max_hardness: 100
+  min_thermal_conductivity: 0.1  # W/m·K
+  max_thermal_conductivity: 1000
+
+# Specific NIST database URLs (update these with actual URLs)
+specific_urls:
+  ceramic_properties:
+    - "https://www.nist.gov/mml/acmd/ceramic-properties"
+    - "https://webbook.nist.gov/chemistry/name-ser/"
+  material_databases:
+    - "https://www.nist.gov/srd/nist-standard-reference-database-30"
+    - "https://www.nist.gov/mml/acmd/thermodynamic-properties"

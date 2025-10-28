@@ -1,0 +1,130 @@
+{
+  "python_environment": {
+    "python_version": "3.11.0 (main, Oct 24 2022, 18:26:48) [MSC v.1933 64 bit (AMD64)]",
+    "python_executable": "C:\\Users\\msris\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+    "platform": "win32",
+    "modules_available": {
+      "pathlib": true,
+      "json": true,
+      "os": true,
+      "sys": true,
+      "time": true,
+      "yaml": false,
+      "pandas": false,
+      "numpy": false,
+      "sklearn": false,
+      "xgboost": false,
+      "catboost": false,
+      "shap": false,
+      "loguru": false
+    },
+    "module_availability_percent": 38.46153846153847,
+    "critical_modules_available": false
+  },
+  "configuration": {
+    "files_found": {
+      "config/config.yaml": true,
+      "config/model_params.yaml": true,
+      "config/api_keys.yaml": true,
+      "requirements.txt": true
+    },
+    "files_valid": {
+      "config/config.yaml": true,
+      "config/model_params.yaml": false,
+      "config/api_keys.yaml": false,
+      "requirements.txt": true
+    },
+    "total_files": 4,
+    "found_files": 4,
+    "valid_files": 2,
+    "found_percentage": 100.0,
+    "valid_percentage": 50.0,
+    "configuration_ready": true
+  },
+  "directory_structure": {
+    "directories_found": {
+      "src/": true,
+      "src/data_collection/": true,
+      "src/models/": true,
+      "src/training/": true,
+      "src/evaluation/": true,
+      "src/interpretation/": true,
+      "data/": true,
+      "data/raw/": true,
+      "data/processed/": true,
+      "data/features/": true,
+      "results/": true,
+      "results/models/": true,
+      "results/figures/": true,
+      "results/reports/": true,
+      "scripts/": true,
+      "config/": true
+    },
+    "directories_created": {},
+    "total_directories": 16,
+    "existing_directories": 16,
+    "created_directories": 0,
+    "ready_percentage": 100.0,
+    "structure_ready": true
+  },
+  "source_code": {
+    "files_found": {
+      "src/__init__.py": true,
+      "src/training/trainer.py": true,
+      "src/evaluation/metrics.py": true,
+      "src/interpretation/shap_analyzer.py": true,
+      "src/data_collection/materials_project_collector.py": true,
+      "src/models/base_model.py": true,
+      "src/utils/config_loader.py": true,
+      "src/utils/logger.py": true
+    },
+    "files_size": {
+      "src/__init__.py": 2270,
+      "src/training/trainer.py": 10265,
+      "src/evaluation/metrics.py": 2205,
+      "src/interpretation/shap_analyzer.py": 17410,
+      "src/data_collection/materials_project_collector.py": 21653,
+      "src/models/base_model.py": 2919,
+      "src/utils/config_loader.py": 12020,
+      "src/utils/logger.py": 6722
+    },
+    "total_files": 8,
+    "found_files": 8,
+    "substantial_files": 8,
+    "found_percentage": 100.0,
+    "substantial_percentage": 100.0,
+    "code_ready": true
+  },
+  "data_availability": {
+    "locations": {
+      "data/raw/": {
+        "exists": true,
+        "file_count": 9,
+        "csv_files": 9,
+        "total_size": 8763
+      },
+      "data/processed/": {
+        "exists": true,
+        "file_count": 0,
+        "csv_files": 0,
+        "total_size": 0
+      },
+      "data/features/": {
+        "exists": true,
+        "file_count": 0,
+        "csv_files": 0,
+        "total_size": 0
+      }
+    },
+    "total_files": 9,
+    "total_size_mb": 0.008357048034667969,
+    "has_data": true
+  },
+  "model_availability": {
+    "models_dir_exists": true,
+    "model_files": 0,
+    "systems_with_models": [],
+    "properties_with_models": [],
+    "has_models": false
+  }
+}

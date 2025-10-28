@@ -1,0 +1,15 @@
+# API Keys Configuration
+# Copy this file to api_keys.yaml and add your actual API keys
+
+# Materials Project API Key
+# Get yours at: https://materialsproject.org/api
+materials_project: "YOUR_MATERIALS_PROJECT_API_KEY_HERE"
+
+# Semantic Scholar API Key (Optional)
+# Get yours at: https://www.semanticscholar.org/product/api
+# Leave empty or remove if not using literature mining
+semantic_scholar: "YOUR_SEMANTIC_SCHOLAR_API_KEY_HERE"
+
+# Example with actual key format:
+# materials_project: "mp-1234567890abcdef"
+# semantic_scholar: "ss-abcdef1234567890"

@@ -1,0 +1,290 @@
+# ============================================================================
+# CERAMIC ARMOR ML PROJECT - MASTER CONFIGURATION
+# ============================================================================
+
+project:
+  name: "Ceramic Armor ML"
+  version: "1.0.0"
+  author: "Research Team"
+  
+# Ceramic Systems
+ceramic_systems:
+  primary:
+    - SiC
+    - Al2O3
+    - B4C
+    - WC
+    - TiC
+  
+  # Transfer learning configuration
+  transfer_learning:
+    source_system: "SiC"  # Most data-rich system
+    target_systems:
+      - "WC"
+      - "TiC"
+
+# Target Properties
+properties:
+  mechanical:
+    - youngs_modulus
+    - bulk_modulus
+    - shear_modulus
+    - poisson_ratio
+    - compressive_strength
+    - tensile_strength
+    - vickers_hardness
+    - knoop_hardness
+    - fracture_toughness_mode_i
+    - fracture_toughness_mode_ii
+    - fracture_toughness_mode_iii
+  
+  ballistic:
+    - v50                    # Ballistic limit velocity
+    - energy_absorption
+    - penetration_depth
+    - ballistic_limit
+    - mass_efficiency
+    - defeat_mechanism       # Categorical: shatter/erosion/perforation
+  
+  thermal:
+    - thermal_conductivity
+    - thermal_expansion_coefficient
+    - specific_heat
+    - melting_point
+    - thermal_diffusivity
+  
+  microstructure:
+    - grain_size
+    - porosity
+    - relative_density
+    - phase_composition
+
+# Performance Targets (NON-NEGOTIABLE)
+targets:
+  mechanical_r2: 0.85
+  ballistic_r2: 0.80
+  uncertainty_threshold: 0.15  # Max acceptable prediction uncertainty
+
+# Phase Stability Classification
+phase_stability:
+  stable_threshold: 0.05       # eV/atom
+  metastable_threshold: 0.10   # eV/atom
+  classification:
+    stable: "ΔE_hull < 0.05"
+    metastable: "0.05 ≤ ΔE_hull < 0.10"
+    unstable: "ΔE_hull ≥ 0.10"
+
+# Data Sources
+data_sources:
+  materials_project:
+    enabled: true
+    expected_entries: 3500
+    properties:
+      - structure
+      - elastic_tensor
+      - energy_above_hull
+      - formation_energy
+      - band_gap
+  
+  aflow:
+    enabled: true
+    expected_entries: 1000
+  
+  jarvis:
+    enabled: true
+    expected_entries: 800
+  
+  nist:
+    enabled: true
+    expected_entries: 600
+  
+  onr_arl:
+    enabled: false  # Requires special access
+    expected_entries: 300
+
+# Feature Engineering
+features:
+  derived:
+    - specific_hardness              # H / ρ
+    - brittleness_index             # H / K_IC
+    - ballistic_efficacy            # σ_c × √H
+    - elastic_anisotropy            # Zener index
+    - thermal_shock_resistance      # R, R', R'''
+    - pugh_ratio                    # G / B
+    - cauchy_pressure               # (C12 - C44)
+  
+  compositional:
+    - atomic_mass_avg
+    - atomic_radius_avg
+    - electronegativity_diff
+    - valence_electron_concentration
+    - mixing_entropy
+  
+  microstructural:
+    - grain_boundary_energy
+    - dislocation_density_estimate
+    - phase_fraction
+
+# Model Configuration
+models:
+  xgboost:
+    objective: "reg:squarederror"
+    n_estimators: 1000
+    max_depth: 8
+    learning_rate: 0.05
+    subsample: 0.8
+    colsample_bytree: 0.8
+    colsample_bylevel: 0.8
+    min_child_weight: 3
+    gamma: 0.1
+    reg_alpha: 0.01
+    reg_lambda: 1.0
+    n_jobs: 20
+    tree_method: "hist"      # Optimized for CPU
+    predictor: "cpu_predictor"
+    
+  catboost:
+    iterations: 1000
+    depth: 8
+    learning_rate: 0.05
+    l2_leaf_reg: 3
+    random_strength: 0.5
+    bagging_temperature: 0.2
+    border_count: 128
+    thread_count: 20
+    task_type: "CPU"
+    bootstrap_type: "Bayesian"
+    
+  random_forest:
+    n_estimators: 500
+    max_depth: 15
+    min_samples_split: 5
+    min_samples_leaf: 2
+    max_features: "sqrt"
+    n_jobs: 20
+    oob_score: true
+    
+  gradient_boosting:
+    n_estimators: 500
+    max_depth: 6
+    learning_rate: 0.05
+    subsample: 0.8
+    min_samples_split: 5
+    min_samples_leaf: 2
+    max_features: "sqrt"
+  
+  ensemble:
+    method: "stacking"  # Options: "stacking", "voting", "weighted"
+    meta_learner: "ridge"
+    weights:
+      xgboost: 0.40
+      catboost: 0.35
+      random_forest: 0.15
+      gradient_boosting: 0.10
+
+# Hyperparameter Optimization
+hyperparameter_tuning:
+  method: "optuna"  # Options: "optuna", "hyperopt", "grid"
+  n_trials: 100
+  timeout: 3600  # seconds
+  cv_folds: 5
+  optimization_metric: "r2"
+
+# Cross-Validation
+cross_validation:
+  k_fold:
+    n_splits: 5
+    shuffle: true
+    random_state: 42
+  
+  leave_one_ceramic_out:
+    enabled: true
+  
+  time_series:
+    enabled: false  # Not applicable for this project
+
+# Training Configuration
+training:
+  test_size: 0.2
+  validation_size: 0.15
+  random_state: 42
+  stratify: false
+  
+  early_stopping:
+    enabled: true
+    patience: 50
+    min_delta: 0.001
+  
+  class_weight: null  # Not applicable for regression
+
+# Intel CPU Optimization
+intel_optimization:
+  enabled: true
+  patch_sklearn: true
+  num_threads: 20
+  environment_variables:
+    OMP_NUM_THREADS: "20"
+    MKL_NUM_THREADS: "20"
+    NUMEXPR_NUM_THREADS: "20"
+    OPENBLAS_NUM_THREADS: "20"
+
+# Interpretability
+interpretation:
+  shap:
+    enabled: true
+    n_samples: 1000  # For SHAP calculation
+    plot_types:
+      - summary
+      - dependence
+      - force
+      - waterfall
+  
+  feature_importance:
+    methods:
+      - "gain"
+      - "split"
+      - "permutation"
+    n_repeats: 10  # For permutation importance
+
+# Visualization
+visualization:
+  style: "seaborn-v0_8-darkgrid"
+  figure_size: [10, 6]
+  dpi: 300
+  format: "png"
+  save_svg: true
+
+# Logging
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: "ceramic_armor_ml.log"
+  console: true
+
+# Paths
+paths:
+  data:
+    raw: "data/raw"
+    processed: "data/processed"
+    features: "data/features"
+    splits: "data/splits"
+  
+  models: "results/models"
+  predictions: "results/predictions"
+  metrics: "results/metrics"
+  figures: "results/figures"
+  reports: "results/reports"
+  
+  config: "config"
+  logs: "logs"
+
+# Reproducibility
+reproducibility:
+  seed: 42
+  deterministic: true
+
+# Performance Monitoring
+monitoring:
+  track_memory: true
+  track_time: true
+  profile: false
