@@ -1,256 +1,73 @@
-# Implementation Plan - Fix Existing Project Gaps
+# Implementation Plan - Publication-Grade End-to-End Refactoring
 
-- [x] 1. Fix critical missing implementations in existing codebase
+- [ ] 1. Systematically resolve all 31 failing tests to achieve 100% test pass rate
+  - Fix network/SSL issues with robust retry mechanisms and certificate handling
+  - Add missing 'name' attributes to all model classes for consistent interfaces
+  - Correct test logic issues and mock setups to match actual implementation behavior
+  - Configure headless plotting with 'Agg' backend for Windows matplotlib/tkinter issues
+  - Update pymatgen API compatibility for current element property access methods
+  - Ensure all 78 tests pass with zero failures for publication-grade reliability
+  - _Requirements: 1.1, 1.2, 1.3, 1.4, 1.5_
 
-
-
-
-
-
-
-
-
-
-  - Complete the Materials Project collector (currently has "Insert Code Here" placeholder)
-  - Implement missing gradient boosting model (currently placeholder)
-  - Fix any remaining placeholder implementations
-  - Verify all existing implementations work correctly
+- [ ] 2. Implement exact modeling strategy with zero deviations from specification
+  - Refactor existing models to strictly implement XGBoost, CatBoost, Random Forest, and Gradient Boosting Regressor
+  - Configure Intel Extension for Scikit-learn and Intel MKL accelerated XGBoost
+  - Set n_jobs=20 threads across all models for maximum CPU utilization
+  - Implement model stacking with weighted ensemble combining predictions from all four models
+  - Train separate models for SiC, Al₂O₃, B₄C systems and transfer learning from SiC to WC/TiC
+  - Ensure all models have required 'name' attributes and consistent interfaces
   - _Requirements: 2.1, 2.2, 2.3, 2.4, 2.5_
 
-- [x] 1.1 Complete Materials Project collector implementation
-
-
-  - Replace "Insert Code Here" placeholder with full MaterialsProjectCollector class
-  - Add elastic tensor queries (C11, C12, C44) for Cauchy pressure calculations
-  - Implement thermal properties queries using separate API endpoint
-  - Add exponential backoff retry logic with maximum 5 retries and 2^n second delays
-  - Include progress bars using tqdm and intermediate result saving
-  - _Requirements: 2.1, 2.2, 2.3, 2.4_
-
-- [x] 1.2 Implement missing gradient boosting model
-
-
-
-  - Create complete GradientBoostingModel class to match existing model structure
-  - Follow same pattern as existing XGBoost, CatBoost, and Random Forest models
-  - Include uncertainty quantification and hyperparameter optimization
-  - Integrate with existing base model class and ensemble system
-  - _Requirements: 8.3_
-
-- [x] 1.3 Verify existing utility implementations work correctly
-
-
-  - Test existing logger system with current project structure
-  - Validate existing config loader works with current YAML files
-  - Ensure existing data utilities integrate properly with current modules
-  - Fix any import issues or path problems in existing code
-  - _Requirements: 1.1, 1.2, 1.3_
-
-- [x] 2. Fix package imports and __init__.py files
-
-
-
-
-
-  - Configure all __init__.py files to properly import existing modules
-  - Resolve import errors between existing components
-  - Ensure consistent import paths across all existing modules
-  - Test that all existing modules can be imported without errors
-  - _Requirements: 1.3, 1.5_
-
-- [x] 2.1 Fix src/utils/__init__.py imports
-
-
-  - Import existing logger, data_utils, config_loader, intel_optimizer modules
-  - Ensure all utility functions are accessible from package level
-  - Test imports work correctly with existing implementations
-  - _Requirements: 1.3, 1.5_
-
-- [x] 2.2 Fix src/data_collection/__init__.py imports
-
-
-  - Import completed materials_project_collector module
-  - Add imports for any other existing collectors
-  - Ensure data collection modules are accessible
-  - _Requirements: 1.5_
-
-- [x] 2.3 Fix remaining module __init__.py files
-
-
-  - Configure src/preprocessing/__init__.py with existing modules
-  - Set up src/feature_engineering/__init__.py with existing feature calculators
-  - Configure src/models/__init__.py with all existing model classes
-  - Set up src/training/__init__.py, src/evaluation/__init__.py, src/interpretation/__init__.py
-  - _Requirements: 1.5_
-
-- [x] 3. Fix integration issues between existing components
-
-
-
-
-
-  - Resolve feature name consistency between existing trainer.py and shap_analyzer.py
-  - Fix data persistence format mismatches in existing code
-  - Ensure existing SHAP analyzer can load data saved by existing trainer
-  - Test end-to-end integration of existing components
-  - _Requirements: 4.1, 4.2, 4.3, 4.4, 4.5_
-
-- [x] 3.1 Fix trainer-SHAP integration in existing code
-
-
-  - Modify existing trainer.py to save feature names as consistent Python lists
-  - Update existing shap_analyzer.py to load feature names in matching format
-  - Ensure X_test, y_test, and feature_names use identical formatting in existing code
-  - Add validation checks in existing code before SHAP analysis
-  - _Requirements: 4.1, 4.2_
-
-- [x] 3.2 Improve error handling in existing SHAP analyzer
-
-
-  - Modify existing shap_analyzer.py to handle missing X_test.npy files gracefully
-  - Add informative error messages to existing SHAP code
-  - Ensure existing SHAP plot generation continues even if individual plots fail
-  - Add progress indicators to existing SHAP calculations
-  - _Requirements: 4.3, 4.4_
-
-- [x] 4. Create validation scripts for existing system
-
-
-
-
-
-  - Build setup validation to check existing dependencies and imports
-  - Create data quality inspection for existing pipeline stages
-  - Implement training monitoring for existing model training
-  - Build performance validation against existing targets
+- [ ] 3. Implement mandatory feature engineering with specific derived properties
+  - Refactor existing feature engineering to calculate Specific Hardness = Hardness / Density
+  - Add Brittleness Index = Hardness / Fracture Toughness calculation
+  - Implement Ballistic Efficiency = Compressive Strength × (Hardness^0.5) calculation
+  - Add Thermal Shock Resistance indices using thermal expansion and conductivity data
+  - Generate exactly 120+ engineered properties including compositional, structural, derived, and phase stability features
+  - Implement phase stability classification using DFT hull distance values (ΔE_hull < 0.05 eV/atom for single-phase)
   - _Requirements: 3.1, 3.2, 3.3, 3.4, 3.5_
 
-- [x] 4.1 Create setup validation script
+- [ ] 4. Enforce strict performance targets with automatic validation and adjustment
+  - Implement automatic performance validation for R² ≥ 0.85 for mechanical properties (Young's modulus, hardness, fracture toughness)
+  - Enforce R² ≥ 0.80 for ballistic properties (ballistic efficiency, penetration resistance)
+  - Create automatic hyperparameter adjustment system when performance targets are not met
+  - Implement stacking weight optimization to maximize ensemble performance
+  - Add 5-fold cross-validation and leave-one-ceramic-family-out validation
+  - Implement prediction uncertainty estimation using Random Forest variance and CatBoost built-in uncertainty
+  - _Requirements: 4.1, 4.2, 4.3, 4.4, 4.5_
 
-
-  - Check all existing dependencies are installed correctly
-  - Verify all existing module imports work without errors
-  - Test API connectivity with existing collector implementations
-  - Validate existing directory structure and config files
-  - Generate comprehensive setup report for existing system
-  - _Requirements: 3.1_
-
-- [x] 4.2 Create data collector testing script
-
-
-  - Test existing collectors (once materials_project_collector is completed)
-  - Validate output schemas match existing preprocessing expectations
-  - Check for missing columns in existing data flow
-  - Measure API response times with existing implementations
-  - _Requirements: 3.2_
-
-- [x] 4.3 Create data quality inspection script
-
-
-  - Load existing data at each stage (raw → processed → features)
-  - Generate statistics using existing data processing pipeline
-  - Create data quality report for existing system
-  - Flag issues for manual review in existing workflow
-  - _Requirements: 3.3_
-
-
-- [x] 4.4 Create training monitoring script
-
-  - Add real-time progress monitoring to existing trainer.py
-  - Show live R² scores during existing cross-validation
-  - Implement time estimates for existing training processes
-  - Add memory usage monitoring for existing model training
-
-
-
-  - _Requirements: 3.4_
-
-- [x] 5. Create minimal test pipeline using existing components
-
-
-
-  - Build fast end-to-end test using existing implementations
-  - Use 100 samples per ceramic system with existing data collection
-  - Train only on Young's modulus using existing model implementations
-
-
-  - Complete test in under 30 minutes using existing pipeline
+- [ ] 5. Generate comprehensive interpretability analysis with mechanistic insights
+  - Refactor existing SHAP analyzer to produce SHAP importance plots for each ceramic system and target property
+  - Create feature ranking showing which material factors control ballistic performance
+  - Generate mechanistic interpretation correlating feature importance to known materials science principles
+  - Create publication-ready visualizations with proper scientific formatting, error bars, and statistical significance
+  - Document why tree-based models outperform neural networks for ceramic materials prediction domain
+  - Fix trainer-SHAP integration to ensure consistent feature name handling and data persistence formats
   - _Requirements: 5.1, 5.2, 5.3, 5.4, 5.5_
 
-- [x] 5.1 Create minimal test script
-
-  - Use existing materials_project_collector (once completed) for 100 samples per system
-
-
-  - Process data using existing preprocessing pipeline
-  - Generate features using existing feature engineering modules
-  - Train models using existing trainer with simplified parameters
-  - _Requirements: 5.1, 5.2, 5.3_
-
-- [x] 5.2 Validate minimal test results
-
-  - Verify all existing pipeline stages complete successfully
-  - Generate test completion report using existing evaluation modules
-  - Validate core functionality works with existing components
-  - Add automated pass/fail determination for existing pipeline health
-  - _Requirements: 5.4, 5.5_
-
-- [x] 6. Create Windows-specific setup for existing project
-
-
-
-
-
-  - Build Windows setup automation for existing project structure
-  - Generate Windows documentation for existing implementations
-  - Test Windows compatibility of existing components
-  - Create troubleshooting guide for existing system on Windows
+- [ ] 6. Process full-scale dataset of 5,600+ materials with complete reproducibility
+  - Refactor data collection to handle 5,600+ materials across SiC, Al₂O₃, B₄C, WC, and TiC ceramic systems
+  - Ensure complete working Python code with no placeholders, missing imports, or approximations
+  - Generate comprehensive documentation with Google-style docstrings and type hints for all functions
+  - Create reproducible run instructions that work exactly as provided without modifications
+  - Implement robust error handling and logging for production-scale processing
+  - Generate supporting documentation, analysis commentary, and visualization utilities suitable for publication
   - _Requirements: 6.1, 6.2, 6.3, 6.4, 6.5_
 
-- [x] 6.1 Create Windows setup script for existing project
+- [ ] 7. Achieve zero tolerance code standards with complete implementations
+  - Refactor all existing code to include complete working implementations with no placeholders or shortcuts
+  - Add comprehensive docstrings using Google style and type hints for all function signatures
+  - Implement robust error handling with try/except blocks and comprehensive logging throughout
+  - Ensure code runs immediately without requiring additional fixes, modifications, or debugging
+  - Validate all inputs before processing and handle edge cases appropriately with clear error messages
+  - Generate code that can be executed exactly as provided for independent verification and reproducibility
+  - _Requirements: 7.1, 7.2, 7.3, 7.4, 7.5_
 
-
-  - Build setup_windows.bat that works with existing directory structure
-  - Add conda environment setup using existing requirements.txt
-  - Create config file templates that work with existing config system
-  - Test one-click setup with existing project files
-  - _Requirements: 6.1, 6.2, 6.3_
-
-
-- [x] 6.2 Create Windows documentation for existing system
-
-  - Document step-by-step setup for existing project on Windows 11
-  - Add PowerShell commands for existing project structure
-  - Include troubleshooting for existing implementations on Windows
-  - Document Windows-specific considerations for existing codebase
-  - _Requirements: 6.4, 6.5_
-
-- [x] 7. Validate production readiness of existing system
-
-
-
-
-
-  - Test existing system with full 5,600+ materials dataset
-  - Verify existing models achieve R² targets (≥0.85 mechanical, ≥0.80 ballistic)
-  - Validate existing SHAP analysis produces publication-ready results
-  - Ensure existing system meets all publication requirements
+- [ ] 8. Generate publication-ready analysis and scientific documentation
+  - Create comprehensive analysis commentary explaining why tree-based models outperform neural networks for ceramic materials
+  - Generate mechanistic interpretation correlating feature importance to known materials science principles with literature references
+  - Provide complete project structure overview with minimal but sufficient implementations focused on essential functionality
+  - Create publication-ready figures with proper scientific formatting, error bars, and statistical significance testing
+  - Document mechanistic interpretation of which material factors control ballistic response with physical reasoning
+  - Ensure all outputs meet top-tier journal publication standards (Nature Materials, Acta Materialia, Materials & Design)
   - _Requirements: 8.1, 8.2, 8.3, 8.4, 8.5_
-
-- [x] 7.1 Test existing system at production scale
-
-
-  - Run existing data collection for all 5 ceramic systems at full scale
-  - Process data using existing preprocessing and feature engineering
-  - Train all existing models (XGBoost, CatBoost, Random Forest, Ensemble)
-  - Generate comprehensive results using existing evaluation system
-  - _Requirements: 8.1, 8.2, 8.3, 8.4_
-
-- [x] 7.2 Validate existing SHAP analysis for publication
-
-
-  - Run existing SHAP analyzer on all trained models
-  - Generate publication-ready visualizations using existing code
-  - Create mechanistic insights using existing interpretation modules
-  - Ensure all outputs meet journal publication standards
-  - _Requirements: 8.5_

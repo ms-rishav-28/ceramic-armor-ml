@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This specification defines the requirements for **completing and fixing critical gaps** in an existing publication-ready machine learning pipeline to predict mechanical and ballistic properties of ceramic armor materials. The existing codebase has most components implemented but requires specific fixes and completions to address import errors, missing implementations, and integration issues. The system must deliver a complete, working implementation suitable for top-tier journal publication (Acta Materialia, Materials & Design).
+This specification defines the requirements for **elevating an existing machine learning pipeline to publication-grade standards** for predicting mechanical and ballistic properties of ceramic armor materials. The system currently has 47 passing tests but 31 failing tests that must be resolved. The pipeline must achieve zero tolerance for approximation, deliver reproducible results, and meet strict performance targets (R² ≥ 0.85 for mechanical, R² ≥ 0.80 for ballistic properties) suitable for top-tier journal publication (Acta Materialia, Materials & Design, Nature Materials).
 
 ## Glossary
 
@@ -20,96 +20,96 @@ This specification defines the requirements for **completing and fixing critical
 
 ### Requirement 1
 
-**User Story:** As a materials scientist, I want the existing utility system to work correctly with all imports resolved, so that I can run the ML pipeline without import errors or missing dependencies.
+**User Story:** As a materials scientist, I want all 31 failing tests to be resolved systematically, so that the pipeline achieves 100% test pass rate with zero tolerance for approximation.
 
 #### Acceptance Criteria
 
-1. WHEN the existing ML_Pipeline is initialized, THE Logger_System SHALL work correctly with the current implementation
-2. WHEN configuration files are loaded, THE existing Config_System SHALL function properly with current YAML files
-3. WHEN any module imports utilities, THE ML_Pipeline SHALL resolve all dependencies using existing utility implementations
-4. WHEN running on Windows_Environment, THE existing ML_Pipeline SHALL handle file paths correctly with current implementations
-5. THE ML_Pipeline SHALL fix all package imports through properly configured __init__.py files that import existing modules
+1. WHEN network/SSL tests fail, THE ML_Pipeline SHALL implement robust retry mechanisms with exponential backoff and proper certificate handling
+2. WHEN model classes have missing attributes, THE ML_Pipeline SHALL ensure all models have required 'name' attributes and consistent interfaces
+3. WHEN test logic issues occur, THE ML_Pipeline SHALL correct test expectations and mock setups to match actual implementation behavior
+4. WHEN matplotlib/tkinter configuration problems arise on Windows_Environment, THE ML_Pipeline SHALL implement headless plotting with proper backend configuration
+5. WHEN pymatgen API compatibility issues occur, THE ML_Pipeline SHALL update element property access to match current API versions
 
 ### Requirement 2
 
-**User Story:** As a researcher, I want the incomplete Materials Project collector to be fully implemented, so that I can gather all required material properties including elastic tensors and thermal data.
+**User Story:** As a computational materials scientist, I want the pipeline to implement the exact modeling strategy specified with zero deviations, so that results are reproducible and meet publication standards.
 
 #### Acceptance Criteria
 
-1. WHEN querying Materials Project API, THE Data_Collector SHALL replace the "Insert Code Here" placeholder with complete implementation for elastic tensor components (C11, C12, C44)
-2. WHEN API rate limits are encountered, THE Data_Collector SHALL implement exponential backoff with maximum 5 retries and 2^n second delays
-3. WHEN collecting thermal properties, THE Data_Collector SHALL query separate thermal endpoint with proper error handling
-4. WHEN long queries are running, THE Data_Collector SHALL display progress bars and save intermediate results for crash recovery
-5. THE Data_Collector SHALL handle all API failures gracefully and integrate with existing logging system
+1. WHEN training models, THE ML_Pipeline SHALL implement exactly XGBoost, CatBoost, Random Forest, and Gradient Boosting Regressor with no substitutions
+2. WHEN processing ceramic systems, THE ML_Pipeline SHALL train separate models for SiC, Al₂O₃, B₄C, WC, and TiC with transfer learning from SiC to WC/TiC
+3. WHEN creating ensembles, THE ML_Pipeline SHALL implement model stacking with weighted ensemble combining predictions from all four models
+4. WHEN optimizing performance, THE ML_Pipeline SHALL use CPU optimization with Intel Extension for Scikit-learn, Intel MKL accelerated XGBoost, and n_jobs=20 threads
+5. THE ML_Pipeline SHALL classify phase stability using DFT hull distance values with ΔE_hull < 0.05 eV/atom for single-phase materials
 
 ### Requirement 3
 
-**User Story:** As a developer, I want comprehensive validation scripts, so that I can verify system setup and debug issues at each pipeline stage.
+**User Story:** As a researcher, I want mandatory feature engineering with specific derived properties, so that the models capture the physics of ceramic armor performance.
 
 #### Acceptance Criteria
 
-1. WHEN setup validation runs, THE Validation_System SHALL check all dependencies, imports, and API connectivity
-2. WHEN data collectors are tested, THE Validation_System SHALL validate output schemas and measure API response times on 10 sample materials
-3. WHEN data quality is inspected, THE Validation_System SHALL generate statistics for sample counts, missing values, and outliers at each processing stage
-4. WHEN training is monitored, THE Validation_System SHALL display real-time progress with R² scores and time estimates
-5. THE Validation_System SHALL verify performance targets (R² ≥ 0.85 for mechanical, R² ≥ 0.80 for ballistic properties)
+1. WHEN calculating derived features, THE Feature_Engineer SHALL compute Specific Hardness as Hardness divided by Density
+2. WHEN calculating brittleness metrics, THE Feature_Engineer SHALL compute Brittleness Index as Hardness divided by Fracture Toughness
+3. WHEN calculating ballistic performance, THE Feature_Engineer SHALL compute Ballistic Efficiency as Compressive Strength multiplied by Hardness to the power of 0.5
+4. WHEN calculating thermal properties, THE Feature_Engineer SHALL compute Thermal Shock Resistance indices using thermal expansion and conductivity data
+5. THE Feature_Engineer SHALL generate exactly 120+ engineered properties including compositional, structural, derived, and phase stability features
 
 ### Requirement 4
 
-**User Story:** As a machine learning engineer, I want the existing training and interpretation components to work together correctly, so that SHAP analysis works with trained models without integration errors.
+**User Story:** As a researcher, I want strict performance targets to be met with no exceptions, so that results are suitable for high-impact journal publication.
 
 #### Acceptance Criteria
 
-1. WHEN models are trained using existing trainer.py, THE Model_Trainer SHALL save feature names as consistent list format matching X_test data structure
-2. WHEN SHAP analysis runs using existing shap_analyzer.py, THE SHAP_Analyzer SHALL load feature names in same format as saved by Model_Trainer
-3. WHEN X_test.npy files are missing, THE existing SHAP_Analyzer SHALL handle gracefully and provide informative error messages
-4. WHEN generating SHAP plots, THE existing SHAP_Analyzer SHALL continue processing even if individual plots fail
-5. THE existing Model_Trainer SHALL be fixed to persist X_test, y_test, and feature_names with identical formatting standards
+1. WHEN predicting mechanical properties, THE ML_Pipeline SHALL achieve R² ≥ 0.85 for Young's modulus, hardness, and fracture toughness predictions
+2. WHEN predicting ballistic performance, THE ML_Pipeline SHALL achieve R² ≥ 0.80 for ballistic efficiency and penetration resistance metrics
+3. WHEN performance falls below targets, THE ML_Pipeline SHALL automatically adjust hyperparameters, stacking weights, and derived features until targets are met
+4. WHEN validation completes, THE ML_Pipeline SHALL implement 5-fold cross-validation and leave-one-ceramic-family-out validation
+5. THE ML_Pipeline SHALL provide prediction uncertainty estimation using Random Forest variance or CatBoost built-in uncertainty estimates
 
 ### Requirement 5
 
-**User Story:** As a researcher, I want a minimal test pipeline, so that I can verify the entire system works end-to-end in under 30 minutes.
+**User Story:** As a materials scientist, I want comprehensive interpretability analysis with mechanistic insights, so that results provide scientific understanding beyond black-box predictions.
 
 #### Acceptance Criteria
 
-1. WHEN minimal test runs, THE ML_Pipeline SHALL process 100 samples per ceramic system using Materials Project only
-2. WHEN training in test mode, THE ML_Pipeline SHALL focus on Young's modulus prediction as the fastest property
-3. WHEN test completes, THE ML_Pipeline SHALL validate all pipeline stages completed successfully
-4. THE ML_Pipeline SHALL complete minimal test in less than 30 minutes on specified hardware configuration
-5. THE ML_Pipeline SHALL generate test report confirming system functionality
+1. WHEN generating interpretability analysis, THE SHAP_Analyzer SHALL produce SHAP importance plots for each ceramic system and target property
+2. WHEN ranking features, THE SHAP_Analyzer SHALL provide feature ranking for each ceramic system showing which material factors control performance
+3. WHEN creating mechanistic interpretation, THE SHAP_Analyzer SHALL discuss how feature importance correlates to known materials science principles
+4. WHEN generating visualizations, THE SHAP_Analyzer SHALL create publication-ready plots with proper scientific formatting and error bars
+5. THE SHAP_Analyzer SHALL explain why tree-based models outperform neural networks for this specific materials domain
 
 ### Requirement 6
 
-**User Story:** As a Windows user, I want automated setup scripts, so that I can configure the entire system with minimal manual intervention.
+**User Story:** As a computational scientist, I want the pipeline to handle 5,600+ materials across all ceramic systems with complete reproducibility, so that results can be independently verified.
 
 #### Acceptance Criteria
 
-1. WHEN Windows setup runs, THE ML_Pipeline SHALL create all required directories automatically
-2. WHEN environment setup executes, THE ML_Pipeline SHALL configure conda environment and install packages with verification
-3. WHEN setup completes, THE ML_Pipeline SHALL generate template configuration files
-4. THE ML_Pipeline SHALL provide comprehensive Windows-specific documentation with PowerShell commands
-5. THE ML_Pipeline SHALL handle common Windows errors and provide troubleshooting guidance
+1. WHEN processing full dataset, THE ML_Pipeline SHALL handle 5,600+ materials across SiC, Al₂O₃, B₄C, WC, and TiC ceramic systems
+2. WHEN generating results, THE ML_Pipeline SHALL provide complete working Python code with no placeholders or missing imports
+3. WHEN documenting processes, THE ML_Pipeline SHALL include clear function and module documentation with Google-style docstrings
+4. WHEN providing instructions, THE ML_Pipeline SHALL include reproducible run instructions that work exactly as provided
+5. THE ML_Pipeline SHALL generate supporting documentation, analysis commentary, and visualization utilities for publication
 
 ### Requirement 7
 
-**User Story:** As a quality assurance engineer, I want production-grade code standards, so that all components are reliable and maintainable.
+**User Story:** As a quality assurance engineer, I want zero tolerance for approximation with production-grade code standards, so that every component is reliable and publication-ready.
 
 #### Acceptance Criteria
 
-1. WHEN any file is created, THE ML_Pipeline SHALL include complete imports with no missing dependencies
-2. WHEN functions are defined, THE ML_Pipeline SHALL include comprehensive docstrings using Google style
-3. WHEN errors occur, THE ML_Pipeline SHALL implement robust error handling with try/except blocks and logging
-4. WHEN functions are declared, THE ML_Pipeline SHALL use type hints for all function signatures
-5. THE ML_Pipeline SHALL validate all inputs before processing and handle edge cases appropriately
+1. WHEN any code is generated, THE ML_Pipeline SHALL include complete working implementations with no placeholders, shortcuts, or missing imports
+2. WHEN functions are defined, THE ML_Pipeline SHALL include comprehensive docstrings, type hints, and robust error handling with try/except blocks
+3. WHEN tests are run, THE ML_Pipeline SHALL achieve 100% test pass rate with all 78 tests passing and zero failures
+4. WHEN code is executed, THE ML_Pipeline SHALL run immediately without requiring additional fixes or modifications
+5. THE ML_Pipeline SHALL validate all inputs, handle edge cases appropriately, and provide clear error messages for any failures
 
 ### Requirement 8
 
-**User Story:** As a computational scientist, I want the system to target 5,600+ materials across 5 ceramic systems, so that I can achieve publication-ready results with specified performance targets.
+**User Story:** As a researcher preparing for journal submission, I want comprehensive analysis and documentation that explains the scientific rationale, so that reviewers understand why this approach is superior.
 
 #### Acceptance Criteria
 
-1. WHEN data collection completes, THE ML_Pipeline SHALL gather data for SiC, Al₂O₃, B₄C, WC, and TiC ceramic systems
-2. WHEN feature engineering runs, THE ML_Pipeline SHALL generate 120+ engineered properties including derived, compositional, and phase stability features
-3. WHEN models are trained, THE ML_Pipeline SHALL implement XGBoost, CatBoost, Random Forest, and Gradient Boosting with stacking ensemble
-4. WHEN performance evaluation completes, THE ML_Pipeline SHALL achieve R² ≥ 0.85 for mechanical properties and R² ≥ 0.80 for ballistic properties
-5. THE ML_Pipeline SHALL implement transfer learning from SiC to WC/TiC for data-scarce systems
+1. WHEN generating analysis commentary, THE ML_Pipeline SHALL explain why tree-based models outperform neural networks for ceramic materials prediction
+2. WHEN creating interpretability analysis, THE ML_Pipeline SHALL correlate feature importance to known materials science principles with literature references
+3. WHEN documenting methodology, THE ML_Pipeline SHALL provide complete project structure overview with minimal but sufficient implementations
+4. WHEN generating visualizations, THE ML_Pipeline SHALL create publication-ready figures with proper scientific formatting, error bars, and statistical significance testing
+5. THE ML_Pipeline SHALL provide mechanistic interpretation discussing which material factors control ballistic response with physical reasoning
