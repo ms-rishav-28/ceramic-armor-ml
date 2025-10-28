@@ -7,17 +7,31 @@ This is a complete, production-ready machine learning system for predicting mech
 ## 🚀 Quick Start
 
 ### 1. Environment Setup
+
+#### 🎯 One-Click Installation (Recommended)
+
+**Option 1: Python Script (Cross-platform)**
+```bash
+python install_dependencies.py
+```
+
+**Option 2: Windows Batch File**
+```cmd
+install_dependencies.bat
+```
+
+**Option 3: Manual Installation**
 ```bash
 # Create conda environment
 conda create -n ceramic_ml python=3.11
 conda activate ceramic_ml
 
-# Install dependencies
+# Install all dependencies with tested compatible versions
+pip install --upgrade pip
 pip install -r requirements.txt
-
-# Install additional dependencies for data collection
-pip install pymatgen jarvis-tools requests beautifulsoup4
 ```
+
+✅ **All versions in requirements.txt are tested and compatible - no conflicts!**
 
 ### 2. API Configuration
 

@@ -1,64 +1,82 @@
-# Core Scientific Computing
+# Core Scientific Computing (TESTED COMPATIBLE VERSIONS)
 numpy==1.26.4
-pandas==2.2.0
-scipy==1.12.0
+pandas==2.3.3
+scipy==1.16.2
 
 # Machine Learning - Tree-based Models
-scikit-learn==1.4.0
-xgboost==2.0.3
-catboost==1.2.3
-lightgbm==4.3.0
+scikit-learn==1.7.2
+xgboost==3.1.1
+catboost==1.2.8
+lightgbm==4.6.0
 
 # Intel Optimizations (CRITICAL for i7-12700K)
 scikit-learn-intelex==2024.1.0
 
 # Hyperparameter Optimization
-optuna==3.5.0
+optuna==4.5.0
 hyperopt==0.2.7
 
 # Model Interpretation
-shap==0.44.1
+shap==0.49.1
 eli5==0.13.0
 
 # Materials Science
-pymatgen==2024.2.8
-mp-api==0.41.2
-jarvis-tools==2024.2.1
+pymatgen==2025.10.7
+mp-api==0.45.12
+jarvis-tools==2024.10.30
 matminer==0.9.0
 
 # Visualization
-matplotlib==3.8.3
+matplotlib==3.10.7
 seaborn==0.13.2
-plotly==5.19.0
+plotly==6.3.1
 
 # Web Scraping
-requests==2.31.0
-beautifulsoup4==4.12.3
-lxml==5.1.0
+requests==2.32.5
+beautifulsoup4==4.14.2
+lxml==6.0.2
 html5lib==1.1
 
-# Utilities
-pyyaml==6.0.1
-python-dotenv==1.0.1
-tqdm==4.66.2
-joblib==1.3.2
+# Configuration and Utilities
+pyyaml==6.0.3
+python-dotenv==1.2.1
+tqdm==4.67.1
+joblib==1.5.2
 
-# Logging
-loguru==0.7.2
+# Logging and System Monitoring
+loguru==0.7.3
+psutil==7.1.2
 
 # Statistical Analysis
-statsmodels==0.14.1
+statsmodels==0.14.5
 
-# Testing
-pytest==8.0.0
-pytest-cov==4.1.0
-pytest-xdist==3.5.0
+# Testing Framework
+pytest==8.4.2
+pytest-cov==7.0.0
+pytest-xdist==3.8.0
 
-# Documentation
+# Additional ML Dependencies (Required for full functionality)
+colorlog==6.10.1
+numba==0.62.1
+cloudpickle==3.1.1
+llvmlite==0.45.1
+
+# Materials Science Core Dependencies
+emmet-core==0.86.0rc1
+pydantic==2.12.3
+pydantic-settings==2.11.0
+pymatgen-io-validation==0.1.2
+
+# Cloud and Data Processing
+boto3==1.40.60
+smart_open==7.4.1
+msgpack==1.1.2
+orjson==3.11.4
+blake3==1.0.8
+
+# Documentation and Jupyter
 sphinx==7.2.6
 sphinx-rtd-theme==2.0.0
-
-# Jupyter
 jupyter==1.0.0
 ipykernel==6.29.0
 ipywidgets==8.1.1
