@@ -123,20 +123,47 @@ class XGBoostModel(BaseModel):
         
         # For uncertainty estimation, use the variance across trees
         try:
-            # XGBoost doesn't directly expose individual tree predictions
-            # Use a simplified approach based on prediction confidence
+            # Get predictions from subsets of trees to estimate variance
             dmatrix = xgb.DMatrix(X)
             
-            # Estimate uncertainty as a fraction of prediction magnitude
-            # This is a conservative approach for production use
-            uncertainties = np.abs(predictions) * 0.05  # 5% uncertainty estimate
+            # Get total number of trees
+            n_trees = self.model.n_estimators
+            if hasattr(self.model, 'best_iteration') and self.model.best_iteration:
+                n_trees = self.model.best_iteration
             
+            # Collect predictions from different tree subsets
+            tree_predictions = []
+            step_size = max(1, n_trees // 10)  # Use 10 subsets
+            
+            for i in range(step_size, n_trees + 1, step_size):
+                pred = self.model.predict(X, ntree_limit=i)
+                tree_predictions.append(pred)
+            
+            if len(tree_predictions) > 1:
+                tree_predictions = np.array(tree_predictions)
+                uncertainties = np.std(tree_predictions, axis=0)
+            else:
+                # Fallback: use prediction magnitude
+                uncertainties = np.abs(predictions) * 0.05
+                
         except Exception as e:
-            logger.warning(f"Could not calculate detailed uncertainty: {e}")
-            # Fallback: constant relative uncertainty
-            uncertainties = np.abs(predictions) * 0.05
+            logger.warning(f"Tree variance uncertainty estimation failed: {e}")
+            # Fallback uncertainty estimation
+            uncertainties = np.abs(predictions) * 0.05  # 5% uncertainty estimate
         
         return predictions, uncertainties
+    
+    def predict_with_uncertainty(self, X: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
+        """
+        Predict with uncertainty estimates (alias for predict_uncertainty)
+        
+        Args:
+            X: Input features
+        
+        Returns:
+            Tuple of (predictions, uncertainties)
+        """
+        return self.predict_uncertainty(X)
     
     def get_feature_importance(self, importance_type: str = 'gain') -> pd.DataFrame:
         """

@@ -1,0 +1,16 @@
+feature,systems_count,properties_count,mean_importance,std_importance,total_occurrences,significant_count
+feature_28,3,4,0.0791,0.0,7,0
+youngs_modulus,3,4,0.0276,0.0,7,0
+vickers_hardness,3,4,0.0218,0.0,7,0
+feature_35,3,4,0.0212,0.0,7,0
+feature_38,3,4,0.0182,0.0,7,0
+feature_29,3,4,0.0151,0.0,7,0
+elastic_anisotropy,3,4,0.0135,0.0,7,0
+feature_23,3,4,0.013,0.0,7,0
+heat_capacity,3,4,0.0122,0.0,7,0
+shear_modulus,3,4,0.0078,0.0,7,0
+feature_37,3,4,0.0072,0.0,7,0
+bulk_modulus,3,4,0.0069,0.0,7,0
+feature_43,3,4,0.0058,0.0,7,0
+thermal_shock_resistance,3,4,0.0058,0.0,7,0
+feature_39,3,4,0.0056,0.0,7,0

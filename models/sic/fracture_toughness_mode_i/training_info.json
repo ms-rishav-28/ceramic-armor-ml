@@ -1,0 +1,70 @@
+{
+  "n_train_samples": 240,
+  "n_test_samples": 60,
+  "n_features": 45,
+  "feature_names": [
+    "vickers_hardness",
+    "specific_hardness",
+    "fracture_toughness_mode_i",
+    "youngs_modulus",
+    "bulk_modulus",
+    "shear_modulus",
+    "pugh_ratio",
+    "density",
+    "thermal_conductivity",
+    "thermal_expansion",
+    "ballistic_efficiency",
+    "penetration_resistance",
+    "v50",
+    "compressive_strength",
+    "tensile_strength",
+    "elastic_anisotropy",
+    "debye_temperature",
+    "heat_capacity",
+    "thermal_shock_resistance",
+    "brittleness_index",
+    "cauchy_pressure",
+    "poisson_ratio",
+    "feature_22",
+    "feature_23",
+    "feature_24",
+    "feature_25",
+    "feature_26",
+    "feature_27",
+    "feature_28",
+    "feature_29",
+    "feature_30",
+    "feature_31",
+    "feature_32",
+    "feature_33",
+    "feature_34",
+    "feature_35",
+    "feature_36",
+    "feature_37",
+    "feature_38",
+    "feature_39",
+    "feature_40",
+    "feature_41",
+    "feature_42",
+    "feature_43",
+    "feature_44"
+  ],
+  "system": "SiC",
+  "property": "fracture_toughness_mode_i",
+  "data_shape": {
+    "X_train": [
+      240,
+      45
+    ],
+    "X_test": [
+      60,
+      45
+    ],
+    "y_train": [
+      240
+    ],
+    "y_test": [
+      60
+    ]
+  }
+}

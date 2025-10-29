@@ -1,0 +1,106 @@
+system,property,feature,importance,category,significant,rank
+SiC,youngs_modulus,feature_28,0.07907157597196272,Other,False,1
+SiC,youngs_modulus,youngs_modulus,0.02755218513406339,Elastic Properties,False,2
+SiC,youngs_modulus,vickers_hardness,0.02184051656176491,Hardness Related,False,3
+SiC,youngs_modulus,feature_35,0.021219392225686733,Other,False,4
+SiC,youngs_modulus,feature_38,0.018238309996392463,Other,False,5
+SiC,youngs_modulus,feature_29,0.015112546081567814,Other,False,6
+SiC,youngs_modulus,elastic_anisotropy,0.013464462092497024,Elastic Properties,False,7
+SiC,youngs_modulus,feature_23,0.012989171512681108,Other,False,8
+SiC,youngs_modulus,heat_capacity,0.012237375652459548,Thermal Properties,False,9
+SiC,youngs_modulus,shear_modulus,0.007787075757278786,Elastic Properties,False,10
+SiC,youngs_modulus,feature_37,0.007218007988308588,Other,False,11
+SiC,youngs_modulus,bulk_modulus,0.006861352517916866,Elastic Properties,False,12
+SiC,youngs_modulus,feature_43,0.005816615985061541,Other,False,13
+SiC,youngs_modulus,thermal_shock_resistance,0.0057893771664369745,Thermal Properties,False,14
+SiC,youngs_modulus,feature_39,0.0055725358715196195,Other,False,15
+SiC,vickers_hardness,feature_28,0.07907157597196272,Other,False,1
+SiC,vickers_hardness,youngs_modulus,0.02755218513406339,Elastic Properties,False,2
+SiC,vickers_hardness,vickers_hardness,0.02184051656176491,Hardness Related,False,3
+SiC,vickers_hardness,feature_35,0.021219392225686733,Other,False,4
+SiC,vickers_hardness,feature_38,0.018238309996392463,Other,False,5
+SiC,vickers_hardness,feature_29,0.015112546081567814,Other,False,6
+SiC,vickers_hardness,elastic_anisotropy,0.013464462092497024,Elastic Properties,False,7
+SiC,vickers_hardness,feature_23,0.012989171512681108,Other,False,8
+SiC,vickers_hardness,heat_capacity,0.012237375652459548,Thermal Properties,False,9
+SiC,vickers_hardness,shear_modulus,0.007787075757278786,Elastic Properties,False,10
+SiC,vickers_hardness,feature_37,0.007218007988308588,Other,False,11
+SiC,vickers_hardness,bulk_modulus,0.006861352517916866,Elastic Properties,False,12
+SiC,vickers_hardness,feature_43,0.005816615985061541,Other,False,13
+SiC,vickers_hardness,thermal_shock_resistance,0.0057893771664369745,Thermal Properties,False,14
+SiC,vickers_hardness,feature_39,0.0055725358715196195,Other,False,15
+SiC,fracture_toughness_mode_i,feature_28,0.07907157597196272,Other,False,1
+SiC,fracture_toughness_mode_i,youngs_modulus,0.02755218513406339,Elastic Properties,False,2
+SiC,fracture_toughness_mode_i,vickers_hardness,0.02184051656176491,Hardness Related,False,3
+SiC,fracture_toughness_mode_i,feature_35,0.021219392225686733,Other,False,4
+SiC,fracture_toughness_mode_i,feature_38,0.018238309996392463,Other,False,5
+SiC,fracture_toughness_mode_i,feature_29,0.015112546081567814,Other,False,6
+SiC,fracture_toughness_mode_i,elastic_anisotropy,0.013464462092497024,Elastic Properties,False,7
+SiC,fracture_toughness_mode_i,feature_23,0.012989171512681108,Other,False,8
+SiC,fracture_toughness_mode_i,heat_capacity,0.012237375652459548,Thermal Properties,False,9
+SiC,fracture_toughness_mode_i,shear_modulus,0.007787075757278786,Elastic Properties,False,10
+SiC,fracture_toughness_mode_i,feature_37,0.007218007988308588,Other,False,11
+SiC,fracture_toughness_mode_i,bulk_modulus,0.006861352517916866,Elastic Properties,False,12
+SiC,fracture_toughness_mode_i,feature_43,0.005816615985061541,Other,False,13
+SiC,fracture_toughness_mode_i,thermal_shock_resistance,0.0057893771664369745,Thermal Properties,False,14
+SiC,fracture_toughness_mode_i,feature_39,0.0055725358715196195,Other,False,15
+Al2O3,youngs_modulus,feature_28,0.07907157597196272,Other,False,1
+Al2O3,youngs_modulus,youngs_modulus,0.02755218513406339,Elastic Properties,False,2
+Al2O3,youngs_modulus,vickers_hardness,0.02184051656176491,Hardness Related,False,3
+Al2O3,youngs_modulus,feature_35,0.021219392225686733,Other,False,4
+Al2O3,youngs_modulus,feature_38,0.018238309996392463,Other,False,5
+Al2O3,youngs_modulus,feature_29,0.015112546081567814,Other,False,6
+Al2O3,youngs_modulus,elastic_anisotropy,0.013464462092497024,Elastic Properties,False,7
+Al2O3,youngs_modulus,feature_23,0.012989171512681108,Other,False,8
+Al2O3,youngs_modulus,heat_capacity,0.012237375652459548,Thermal Properties,False,9
+Al2O3,youngs_modulus,shear_modulus,0.007787075757278786,Elastic Properties,False,10
+Al2O3,youngs_modulus,feature_37,0.007218007988308588,Other,False,11
+Al2O3,youngs_modulus,bulk_modulus,0.006861352517916866,Elastic Properties,False,12
+Al2O3,youngs_modulus,feature_43,0.005816615985061541,Other,False,13
+Al2O3,youngs_modulus,thermal_shock_resistance,0.0057893771664369745,Thermal Properties,False,14
+Al2O3,youngs_modulus,feature_39,0.0055725358715196195,Other,False,15
+Al2O3,vickers_hardness,feature_28,0.07907157597196272,Other,False,1
+Al2O3,vickers_hardness,youngs_modulus,0.02755218513406339,Elastic Properties,False,2
+Al2O3,vickers_hardness,vickers_hardness,0.02184051656176491,Hardness Related,False,3
+Al2O3,vickers_hardness,feature_35,0.021219392225686733,Other,False,4
+Al2O3,vickers_hardness,feature_38,0.018238309996392463,Other,False,5
+Al2O3,vickers_hardness,feature_29,0.015112546081567814,Other,False,6
+Al2O3,vickers_hardness,elastic_anisotropy,0.013464462092497024,Elastic Properties,False,7
+Al2O3,vickers_hardness,feature_23,0.012989171512681108,Other,False,8
+Al2O3,vickers_hardness,heat_capacity,0.012237375652459548,Thermal Properties,False,9
+Al2O3,vickers_hardness,shear_modulus,0.007787075757278786,Elastic Properties,False,10
+Al2O3,vickers_hardness,feature_37,0.007218007988308588,Other,False,11
+Al2O3,vickers_hardness,bulk_modulus,0.006861352517916866,Elastic Properties,False,12
+Al2O3,vickers_hardness,feature_43,0.005816615985061541,Other,False,13
+Al2O3,vickers_hardness,thermal_shock_resistance,0.0057893771664369745,Thermal Properties,False,14
+Al2O3,vickers_hardness,feature_39,0.0055725358715196195,Other,False,15
+B4C,youngs_modulus,feature_28,0.07907157597196272,Other,False,1
+B4C,youngs_modulus,youngs_modulus,0.02755218513406339,Elastic Properties,False,2
+B4C,youngs_modulus,vickers_hardness,0.02184051656176491,Hardness Related,False,3
+B4C,youngs_modulus,feature_35,0.021219392225686733,Other,False,4
+B4C,youngs_modulus,feature_38,0.018238309996392463,Other,False,5
+B4C,youngs_modulus,feature_29,0.015112546081567814,Other,False,6
+B4C,youngs_modulus,elastic_anisotropy,0.013464462092497024,Elastic Properties,False,7
+B4C,youngs_modulus,feature_23,0.012989171512681108,Other,False,8
+B4C,youngs_modulus,heat_capacity,0.012237375652459548,Thermal Properties,False,9
+B4C,youngs_modulus,shear_modulus,0.007787075757278786,Elastic Properties,False,10
+B4C,youngs_modulus,feature_37,0.007218007988308588,Other,False,11
+B4C,youngs_modulus,bulk_modulus,0.006861352517916866,Elastic Properties,False,12
+B4C,youngs_modulus,feature_43,0.005816615985061541,Other,False,13
+B4C,youngs_modulus,thermal_shock_resistance,0.0057893771664369745,Thermal Properties,False,14
+B4C,youngs_modulus,feature_39,0.0055725358715196195,Other,False,15
+B4C,ballistic_efficiency,feature_28,0.07907157597196272,Other,False,1
+B4C,ballistic_efficiency,youngs_modulus,0.02755218513406339,Elastic Properties,False,2
+B4C,ballistic_efficiency,vickers_hardness,0.02184051656176491,Hardness Related,False,3
+B4C,ballistic_efficiency,feature_35,0.021219392225686733,Other,False,4
+B4C,ballistic_efficiency,feature_38,0.018238309996392463,Other,False,5
+B4C,ballistic_efficiency,feature_29,0.015112546081567814,Other,False,6
+B4C,ballistic_efficiency,elastic_anisotropy,0.013464462092497024,Elastic Properties,False,7
+B4C,ballistic_efficiency,feature_23,0.012989171512681108,Other,False,8
+B4C,ballistic_efficiency,heat_capacity,0.012237375652459548,Thermal Properties,False,9
+B4C,ballistic_efficiency,shear_modulus,0.007787075757278786,Elastic Properties,False,10
+B4C,ballistic_efficiency,feature_37,0.007218007988308588,Other,False,11
+B4C,ballistic_efficiency,bulk_modulus,0.006861352517916866,Elastic Properties,False,12
+B4C,ballistic_efficiency,feature_43,0.005816615985061541,Other,False,13
+B4C,ballistic_efficiency,thermal_shock_resistance,0.0057893771664369745,Thermal Properties,False,14
+B4C,ballistic_efficiency,feature_39,0.0055725358715196195,Other,False,15
