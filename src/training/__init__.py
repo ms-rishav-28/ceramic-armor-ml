@@ -23,8 +23,16 @@ except ImportError as e:
     warnings.warn(f"Could not import HyperparameterTuner: {e}")
     HyperparameterTuner = None
 
+try:
+    from .exact_modeling_trainer import ExactModelingTrainer
+except ImportError as e:
+    import warnings
+    warnings.warn(f"Could not import ExactModelingTrainer: {e}")
+    ExactModelingTrainer = None
+
 __all__ = [
     'CeramicPropertyTrainer',
     'CrossValidator',
-    'HyperparameterTuner'
+    'HyperparameterTuner',
+    'ExactModelingTrainer'
 ]

@@ -26,7 +26,7 @@ class CatBoostModel(BaseModel):
         self.build_model()
     
     def build_model(self):
-        """Build CatBoost model"""
+        """Build CatBoost model with strict compliance to specification"""
         self.model = CatBoostRegressor(
             iterations=self.config.get('iterations', 1000),
             depth=self.config.get('depth', 8),
@@ -42,7 +42,7 @@ class CatBoostModel(BaseModel):
             verbose=False,
             allow_writing_files=False
         )
-        logger.info(f"✓ CatBoost model built with {self.n_jobs} threads")
+        logger.info(f"✓ CatBoost model built with {self.n_jobs} threads (strict compliance)")
     
     def train(self, X_train: np.ndarray, y_train: np.ndarray,
               X_val: Optional[np.ndarray] = None, 

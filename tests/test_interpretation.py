@@ -72,7 +72,9 @@ class TestVisualization:
     @patch('matplotlib.pyplot.close')
     def test_feature_importance_plot(self, mock_close, mock_savefig, sample_importance):
         # Test feature importance plot creation
-        feature_importance_plot(sample_importance, "Test Feature Importance", "test_importance.png")
+        feature_names = sample_importance['feature'].tolist()
+        importance_values = sample_importance['importance'].tolist()
+        feature_importance_plot(feature_names, importance_values, "Test Feature Importance", "test_importance.png")
         
         # Verify plot was saved and closed
         mock_savefig.assert_called_once()

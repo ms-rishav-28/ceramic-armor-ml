@@ -145,32 +145,53 @@ class TestEnsembleModel:
         ensemble_config = {'method': 'voting', 'n_jobs': 1}
         model_configs = {
             'xgboost': model_config,
-            'random_forest': model_config
+            'catboost': model_config,
+            'random_forest': model_config,
+            'gradient_boosting': model_config
         }
         
         model = EnsembleModel(ensemble_config, model_configs)
         assert model.name == 'ensemble'
     
     @patch('src.models.ensemble_model.XGBoostModel')
+    @patch('src.models.ensemble_model.CatBoostModel')
     @patch('src.models.ensemble_model.RandomForestModel')
-    def test_train_predict(self, mock_rf, mock_xgb, sample_data, model_config):
+    @patch('src.models.ensemble_model.GradientBoostingModel')
+    def test_train_predict(self, mock_gb, mock_rf, mock_cat, mock_xgb, sample_data, model_config):
         X, y = sample_data
         X_train, X_test = X[:80], X[80:]
         y_train, y_test = y[:80], y[80:]
         
-        # Mock the base models
+        # Mock the base models with proper sklearn estimators
+        from sklearn.ensemble import RandomForestRegressor
+        from sklearn.linear_model import Ridge
+        
         mock_xgb_instance = Mock()
+        mock_xgb_instance.model = RandomForestRegressor(n_estimators=1, random_state=42)
         mock_xgb_instance.predict.return_value = np.random.random(len(y_test))
         mock_xgb.return_value = mock_xgb_instance
         
         mock_rf_instance = Mock()
+        mock_rf_instance.model = RandomForestRegressor(n_estimators=1, random_state=42)
         mock_rf_instance.predict.return_value = np.random.random(len(y_test))
         mock_rf.return_value = mock_rf_instance
+        
+        mock_cat_instance = Mock()
+        mock_cat_instance.model = Ridge()
+        mock_cat_instance.predict.return_value = np.random.random(len(y_test))
+        mock_cat.return_value = mock_cat_instance
+        
+        mock_gb_instance = Mock()
+        mock_gb_instance.model = Ridge()
+        mock_gb_instance.predict.return_value = np.random.random(len(y_test))
+        mock_gb.return_value = mock_gb_instance
         
         ensemble_config = {'method': 'voting', 'n_jobs': 1}
         model_configs = {
             'xgboost': model_config,
-            'random_forest': model_config
+            'catboost': model_config,
+            'random_forest': model_config,
+            'gradient_boosting': model_config
         }
         
         model = EnsembleModel(ensemble_config, model_configs)

@@ -1,6 +1,6 @@
 """
 Random Forest Model Implementation
-Provides natural uncertainty quantification via tree variance
+Intel Extension accelerated with natural uncertainty quantification via tree variance
 """
 
 import numpy as np
@@ -9,6 +9,7 @@ from sklearn.ensemble import RandomForestRegressor
 from typing import Dict, Tuple, Optional
 from loguru import logger
 from .base_model import BaseModel
+from src.utils.intel_optimizer import intel_opt
 
 class RandomForestModel(BaseModel):
     """Random Forest with uncertainty quantification"""
@@ -26,7 +27,11 @@ class RandomForestModel(BaseModel):
         self.build_model()
     
     def build_model(self):
-        """Build Random Forest model"""
+        """Build Random Forest model with Intel Extension acceleration"""
+        # Ensure Intel optimizations are applied
+        if not intel_opt.optimization_applied:
+            intel_opt.apply_optimizations()
+        
         self.model = RandomForestRegressor(
             n_estimators=self.config.get('n_estimators', 500),
             max_depth=self.config.get('max_depth', 15),
@@ -38,7 +43,7 @@ class RandomForestModel(BaseModel):
             random_state=42,
             verbose=0
         )
-        logger.info(f"✓ Random Forest model built with {self.n_jobs} threads")
+        logger.info(f"✓ Random Forest model built with Intel Extension acceleration and {self.n_jobs} threads")
     
     def train(self, X_train: np.ndarray, y_train: np.ndarray,
               X_val: Optional[np.ndarray] = None, 

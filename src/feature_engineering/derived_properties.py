@@ -63,24 +63,23 @@ class DerivedPropertiesCalculator:
             bi = np.nan_to_num(bi, nan=0.0, posinf=0.0, neginf=0.0)
         return bi
     
-    def calculate_ballistic_efficacy(self, compressive_strength: np.ndarray,
-                                    hardness: np.ndarray) -> np.ndarray:
+    def calculate_ballistic_efficiency(self, compressive_strength: np.ndarray,
+                                      hardness: np.ndarray) -> np.ndarray:
         """
-        Ballistic Efficacy Estimate = σ_c × √H
+        Ballistic Efficiency = Compressive Strength × (Hardness^0.5)
         
-        Empirical relationship derived from ballistic testing:
-        - Compressive strength resists deformation
-        - Hardness (square root) resists penetration
+        EXACT SPECIFICATION: Compressive Strength × (Hardness^0.5)
+        Critical metric for ceramic armor ballistic performance
         
         Args:
             compressive_strength: Compressive strength (MPa)
             hardness: Vickers hardness (GPa)
         
         Returns:
-            Ballistic efficacy estimate (MPa·GPa^0.5)
+            Ballistic efficiency (MPa·GPa^0.5)
         """
-        be = compressive_strength * np.sqrt(hardness)
-        return be
+        ballistic_eff = compressive_strength * np.power(hardness, 0.5)
+        return ballistic_eff
     
     def calculate_elastic_anisotropy(self, bulk_modulus: np.ndarray,
                                     shear_modulus: np.ndarray) -> np.ndarray:
@@ -233,12 +232,12 @@ class DerivedPropertiesCalculator:
             )
             logger.info("✓ Brittleness index calculated")
         
-        # Ballistic Efficacy
+        # Ballistic Efficiency
         if all(col in df.columns for col in ['compressive_strength', 'vickers_hardness']):
-            df_derived['ballistic_efficacy'] = self.calculate_ballistic_efficacy(
+            df_derived['ballistic_efficiency'] = self.calculate_ballistic_efficiency(
                 df['compressive_strength'].values, df['vickers_hardness'].values
             )
-            logger.info("✓ Ballistic efficacy calculated")
+            logger.info("✓ Ballistic efficiency calculated")
         
         # Elastic Anisotropy
         if all(col in df.columns for col in ['bulk_modulus', 'shear_modulus']):

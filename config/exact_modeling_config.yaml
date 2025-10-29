@@ -1,0 +1,174 @@
+# ============================================================================
+# EXACT MODELING STRATEGY CONFIGURATION
+# Strict compliance to specification with zero deviations
+# ============================================================================
+
+# CPU Optimization Settings
+cpu_optimization:
+  n_jobs: 20  # Maximum CPU utilization for i7-12700K
+  intel_extensions: true
+  intel_mkl: true
+  thread_management:
+    OMP_NUM_THREADS: 20
+    MKL_NUM_THREADS: 20
+    NUMEXPR_NUM_THREADS: 20
+    OPENBLAS_NUM_THREADS: 20
+
+# Mandatory Model Configurations (EXACTLY as specified)
+models:
+  xgboost:
+    # Intel MKL accelerated XGBoost
+    objective: "reg:squarederror"
+    n_estimators: 1000
+    max_depth: 8
+    learning_rate: 0.05
+    subsample: 0.8
+    colsample_bytree: 0.8
+    colsample_bylevel: 0.8
+    min_child_weight: 3
+    gamma: 0.1
+    reg_alpha: 0.01
+    reg_lambda: 1.0
+    tree_method: "hist"  # Fast histogram-based algorithm
+    predictor: "cpu_predictor"
+    random_state: 42
+    verbosity: 0
+
+  catboost:
+    # CatBoost with built-in uncertainty estimates
+    iterations: 1000
+    depth: 8
+    learning_rate: 0.05
+    l2_leaf_reg: 3
+    random_strength: 0.5
+    bagging_temperature: 0.2
+    border_count: 128
+    task_type: "CPU"
+    bootstrap_type: "Bayesian"
+    random_seed: 42
+    verbose: false
+    allow_writing_files: false
+
+  random_forest:
+    # Intel Extension accelerated Random Forest
+    n_estimators: 500
+    max_depth: 15
+    min_samples_split: 5
+    min_samples_leaf: 2
+    max_features: "sqrt"
+    oob_score: true
+    random_state: 42
+    verbose: 0
+
+  gradient_boosting:
+    # Intel Extension accelerated Gradient Boosting Regressor
+    n_estimators: 500
+    max_depth: 6
+    learning_rate: 0.05
+    subsample: 0.8
+    min_samples_split: 5
+    min_samples_leaf: 2
+    max_features: "sqrt"
+    validation_fraction: 0.1
+    n_iter_no_change: 10
+    tol: 1e-4
+    random_state: 42
+    verbose: 0
+    warm_start: false
+
+# Stacking Ensemble Configuration
+ensemble:
+  method: "stacking"  # Mandatory stacking with weighted ensemble
+  meta_learner:
+    type: "Ridge"
+    alpha: 1.0
+  cross_validation: 5
+  passthrough: false  # Don't pass original features to meta-learner
+  
+  # Default weights for voting ensemble (if used)
+  weights:
+    xgboost: 0.40
+    catboost: 0.35
+    random_forest: 0.15
+    gradient_boosting: 0.10
+
+# Ceramic System Configuration
+ceramic_systems:
+  independent_systems:
+    - "SiC"      # Silicon Carbide - Base system with full training
+    - "Al2O3"    # Aluminum Oxide - Independent model
+    - "B4C"      # Boron Carbide - Independent model
+  
+  transfer_systems:
+    - "WC"       # Tungsten Carbide - Transfer learning from SiC
+    - "TiC"      # Titanium Carbide - Transfer learning from SiC
+  
+  source_system: "SiC"  # Base system for transfer learning
+
+# Phase Stability Classification
+phase_stability:
+  single_phase_threshold: 0.05  # ΔE_hull < 0.05 eV/atom for single-phase
+  multi_phase_handling: true
+
+# Training Configuration
+training:
+  validation_split: 0.2
+  early_stopping_rounds: 50
+  cross_validation_folds: 5
+  random_state: 42
+  
+  # Leave-one-ceramic-family-out validation
+  ceramic_family_cv: true
+
+# Performance Targets (MANDATORY)
+performance_targets:
+  mechanical_properties:
+    r2_threshold: 0.85  # R² ≥ 0.85 for Young's modulus, hardness, fracture toughness
+    properties:
+      - "youngs_modulus"
+      - "hardness"
+      - "fracture_toughness"
+  
+  ballistic_properties:
+    r2_threshold: 0.80  # R² ≥ 0.80 for ballistic efficiency, penetration resistance
+    properties:
+      - "ballistic_efficiency"
+      - "penetration_resistance"
+
+# Uncertainty Quantification
+uncertainty:
+  methods:
+    xgboost: "tree_variance"      # Tree ensemble variance
+    catboost: "virtual_ensembles" # Built-in virtual ensembles
+    random_forest: "tree_variance" # Natural tree variance
+    gradient_boosting: "staged_predictions" # Staged prediction variance
+  
+  confidence_level: 0.95
+
+# Model Interface Requirements
+interface_requirements:
+  mandatory_attributes:
+    - "name"  # All models MUST have 'name' attribute
+  
+  mandatory_methods:
+    - "fit"
+    - "predict"
+    - "predict_uncertainty"
+    - "get_feature_importance"
+  
+  consistent_interfaces: true
+
+# Logging and Monitoring
+logging:
+  level: "INFO"
+  track_performance: true
+  track_training_time: true
+  track_memory_usage: true
+
+# Validation and Testing
+validation:
+  test_all_models: true
+  test_ensembles: true
+  test_transfer_learning: true
+  test_uncertainty_estimation: true
+  test_performance_targets: true

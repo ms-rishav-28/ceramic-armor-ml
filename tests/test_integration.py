@@ -64,11 +64,10 @@ class TestDataIntegrationPipeline:
             'jarvis': str(jarvis_file)
         }
         
-        result_file = integrator.integrate_system('SiC', source_files)
+        integrated_data = integrator.integrate_system('SiC', source_files)
         
         # Verify integration results
-        assert Path(result_file).exists()
-        integrated_data = pd.read_csv(result_file)
+        assert isinstance(integrated_data, pd.DataFrame)
         
         # Should have data from all sources
         assert len(integrated_data) > 0

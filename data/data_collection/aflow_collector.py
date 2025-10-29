@@ -69,6 +69,10 @@ class AFLOWCollector:
             skip += batch_size
         return results
 
+    def query(self, ceramic_system: str, elements_map=None):
+        """Public query method for testing compatibility"""
+        return self.collect(ceramic_system, elements_map)
+
     def collect(self, ceramic_system: str, elements_map=None):
         """
         Collect AFLOW entries for a ceramic system.

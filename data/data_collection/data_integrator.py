@@ -15,9 +15,22 @@ CANON_COLS = [
 class DataIntegrator:
     """Merge heterogeneous sources, standardize schema, and deduplicate."""
 
-    def __init__(self, save_dir: str = "data/processed"):
-        self.save_dir = Path(save_dir)
+    def __init__(self, save_dir: str = "data/processed", output_dir: str = None):
+        if output_dir:
+            self.save_dir = Path(output_dir)
+            self.output_dir = Path(output_dir)
+        else:
+            self.save_dir = Path(save_dir)
+            self.output_dir = Path(save_dir)
         self.save_dir.mkdir(parents=True, exist_ok=True)
+        self.output_dir.mkdir(parents=True, exist_ok=True)
+
+    def _deduplicate_by_formula(self, df: pd.DataFrame) -> pd.DataFrame:
+        """Deduplicate DataFrame by formula"""
+        df = df.copy()
+        df["formula_norm"] = df["formula"].astype(str).str.replace(r"\s+", "", regex=True)
+        df = df.drop_duplicates(subset=["formula_norm"], keep="first")
+        return df.drop(columns=["formula_norm"])
 
     @staticmethod
     def _coerce_numeric(df: pd.DataFrame, cols):

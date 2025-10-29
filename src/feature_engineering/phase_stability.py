@@ -6,8 +6,15 @@ CRITICAL: Distinguishes single-phase from multi-phase systems
 import numpy as np
 import pandas as pd
 from typing import Dict, List, Tuple
-from mp_api.client import MPRester
 from loguru import logger
+
+try:
+    from mp_api.client import MPRester
+    MP_API_AVAILABLE = True
+except ImportError:
+    logger.warning("Materials Project API not available - phase stability will use existing hull distance values only")
+    MPRester = None
+    MP_API_AVAILABLE = False
 
 class PhaseStabilityAnalyzer:
     """
@@ -33,12 +40,15 @@ class PhaseStabilityAnalyzer:
         self.stable_threshold = stable_threshold
         self.metastable_threshold = metastable_threshold
         
-        if api_key:
+        if api_key and MP_API_AVAILABLE:
             self.mpr = MPRester(api_key)
             logger.info("✓ Materials Project API initialized for phase stability")
         else:
             self.mpr = None
-            logger.warning("No API key provided - using existing hull distance values")
+            if not MP_API_AVAILABLE:
+                logger.warning("Materials Project API not available - using existing hull distance values")
+            else:
+                logger.warning("No API key provided - using existing hull distance values")
     
     def classify_stability(self, energy_above_hull: float) -> str:
         """

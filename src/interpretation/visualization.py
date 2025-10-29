@@ -1,6 +1,8 @@
 # src/interpretation/visualization.py
 import numpy as np
 import pandas as pd
+import matplotlib
+matplotlib.use('Agg')  # Configure headless plotting for Windows compatibility
 import matplotlib.pyplot as plt
 import seaborn as sns
 from pathlib import Path
@@ -20,7 +22,7 @@ def parity_plot(y_true, y_pred, title, out_path):
     ax.set_title(title)
     fig.tight_layout()
     ensure_dir(Path(out_path).parent)
-    fig.savefig(out_path, bbox_inches="tight")
+    plt.savefig(out_path, bbox_inches="tight")
     plt.close(fig)
 
 def residual_plot(y_true, y_pred, title, out_path):
@@ -32,7 +34,7 @@ def residual_plot(y_true, y_pred, title, out_path):
     ax.set_title(title)
     fig.tight_layout()
     ensure_dir(Path(out_path).parent)
-    fig.savefig(out_path, bbox_inches="tight")
+    plt.savefig(out_path, bbox_inches="tight")
     plt.close(fig)
 
 def corr_heatmap(df, title, out_path):
@@ -42,7 +44,7 @@ def corr_heatmap(df, title, out_path):
     ax.set_title(title)
     fig.tight_layout()
     ensure_dir(Path(out_path).parent)
-    fig.savefig(out_path, bbox_inches="tight")
+    plt.savefig(out_path, bbox_inches="tight")
     plt.close(fig)
 
 def feature_importance_plot(feature_names, importance_values, title, out_path):
@@ -61,5 +63,5 @@ def feature_importance_plot(feature_names, importance_values, title, out_path):
     ax.set_title(title)
     fig.tight_layout()
     ensure_dir(Path(out_path).parent)
-    fig.savefig(out_path, bbox_inches="tight")
+    plt.savefig(out_path, bbox_inches="tight")
     plt.close(fig)

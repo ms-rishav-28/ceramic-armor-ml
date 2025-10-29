@@ -22,7 +22,8 @@ def mock_model():
     """Create a mock model for testing."""
     model = Mock()
     model.train = Mock()
-    model.predict = Mock(return_value=np.random.random(20))
+    # Make predict return array with same length as input
+    model.predict = Mock(side_effect=lambda X: np.random.random(len(X)))
     model.build_model = Mock()
     return model
 
@@ -64,7 +65,7 @@ class TestCrossValidator:
                 'y': np.random.random(40)
             },
             'B4C': {
-                'X': np.random.random(30, 10),
+                'X': np.random.random((30, 10)),
                 'y': np.random.random(30)
             }
         }
@@ -72,7 +73,7 @@ class TestCrossValidator:
         def model_factory():
             model = Mock()
             model.train = Mock()
-            model.predict = Mock(return_value=np.random.random(30))  # Smallest test set
+            model.predict = Mock(side_effect=lambda X: np.random.random(len(X)))
             return model
         
         cv = CrossValidator()
@@ -85,7 +86,7 @@ class TestCrossValidator:
         
         for system, r2 in results.items():
             assert isinstance(r2, float)
-            assert -1 <= r2 <= 1  # R² should be in reasonable range
+            assert -10 <= r2 <= 1  # R² can be very negative with random data
 
 
 class TestHyperparameterTuner:
@@ -136,7 +137,7 @@ class TestHyperparameterTuner:
         # Mock optuna study
         mock_study = Mock()
         mock_study.best_params = {'n_estimators': 50, 'learning_rate': 0.1}
-        mock_study.best_value = 0.85
+        mock_study.best_value = -0.85  # Negative because Optuna minimizes negative R²
         mock_create_study.return_value = mock_study
         
         search_space = {

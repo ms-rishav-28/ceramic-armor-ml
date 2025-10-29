@@ -31,7 +31,8 @@ class CompositionalFeatureCalculator:
             radii.append(self._safe(el.atomic_radius))
             en.append(self._safe(el.X))
             groups.append(self._safe(el.group))
-            periods.append(self._safe(el.period))
+            # Fix for pymatgen API change - use row instead of period
+            periods.append(self._safe(getattr(el, 'row', getattr(el, 'period', None))))
 
         def stats(arr):
             arr = np.array([x for x in arr if not np.isnan(x)])

@@ -23,6 +23,7 @@ class BaseModel(ABC):
             config: Model configuration dictionary
         """
         self.model_name = model_name
+        self.name = model_name  # Add name attribute for test compatibility
         self.config = config
         self.model = None
         self.is_trained = False
@@ -49,7 +50,22 @@ class BaseModel(ABC):
     @abstractmethod
     def get_feature_importance(self) -> pd.DataFrame:
         """Get feature importance scores"""
-        pass    
+        pass
+    
+    def predict_uncertainty(self, X: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
+        """
+        Predict with uncertainty estimates (default implementation)
+        
+        Args:
+            X: Input features
+        
+        Returns:
+            Tuple of (predictions, uncertainties)
+        """
+        predictions = self.predict(X)
+        # Default uncertainty as 5% of prediction magnitude
+        uncertainties = np.abs(predictions) * 0.05
+        return predictions, uncertainties    
  
     def save_model(self, filepath: str):
         """

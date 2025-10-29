@@ -51,6 +51,13 @@ except ImportError as e:
     warnings.warn(f"Could not import TransferLearningManager: {e}")
     TransferLearningManager = None
 
+try:
+    from .ceramic_system_manager import CeramicSystemManager
+except ImportError as e:
+    import warnings
+    warnings.warn(f"Could not import CeramicSystemManager: {e}")
+    CeramicSystemManager = None
+
 __all__ = [
     'BaseModel',
     'XGBoostModel',
@@ -58,5 +65,6 @@ __all__ = [
     'RandomForestModel',
     'GradientBoostingModel',
     'EnsembleModel',
-    'TransferLearningManager'
+    'TransferLearningManager',
+    'CeramicSystemManager'
 ]

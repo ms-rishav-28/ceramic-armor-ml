@@ -22,8 +22,8 @@ class AdvancedNISTScraper:
         self.base_dir = Path(base_dir)
         self.base_dir.mkdir(parents=True, exist_ok=True)
         
-        # Load configuration
-        with open(config_path, 'r') as f:
+        # Load configuration with UTF-8 encoding
+        with open(config_path, 'r', encoding='utf-8') as f:
             self.config = yaml.safe_load(f)
         
         # Setup session

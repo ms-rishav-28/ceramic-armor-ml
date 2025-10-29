@@ -88,11 +88,11 @@ class TestErrorAnalyzer:
         
         # Check statistics
         assert isinstance(stats, pd.DataFrame)
-        assert 'abs_error' in stats.columns
-        assert 'mean' in stats.index
-        assert 'std' in stats.index
-        assert 'min' in stats.index
-        assert 'max' in stats.index
+        assert 'abs_error' in stats.index  # abs_error is the row index, not column
+        assert 'mean' in stats.columns
+        assert 'std' in stats.columns
+        assert 'min' in stats.columns
+        assert 'max' in stats.columns
     
     def test_by_category(self):
         # Create sample error data with categories

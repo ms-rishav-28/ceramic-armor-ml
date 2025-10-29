@@ -1,6 +1,6 @@
 """
 Gradient Boosting Model Implementation
-Includes uncertainty quantification and hyperparameter optimization
+Intel Extension accelerated with uncertainty quantification and hyperparameter optimization
 """
 
 import numpy as np
@@ -10,6 +10,7 @@ from sklearn.model_selection import validation_curve
 from typing import Dict, Tuple, Optional
 from loguru import logger
 from .base_model import BaseModel
+from src.utils.intel_optimizer import intel_opt
 
 class GradientBoostingModel(BaseModel):
     """Gradient Boosting Regressor with uncertainty quantification and CPU optimization"""
@@ -28,7 +29,11 @@ class GradientBoostingModel(BaseModel):
         self.build_model()
     
     def build_model(self):
-        """Build Gradient Boosting model with CPU-friendly settings"""
+        """Build Gradient Boosting model with Intel Extension acceleration"""
+        # Ensure Intel optimizations are applied
+        if not intel_opt.optimization_applied:
+            intel_opt.apply_optimizations()
+        
         self.model = GradientBoostingRegressor(
             n_estimators=self.config.get('n_estimators', 500),
             max_depth=self.config.get('max_depth', 6),
@@ -39,12 +44,12 @@ class GradientBoostingModel(BaseModel):
             max_features=self.config.get('max_features', 'sqrt'),
             validation_fraction=self.config.get('validation_fraction', 0.1),
             n_iter_no_change=self.config.get('n_iter_no_change', 10),
-            tol=self.config.get('tol', 1e-4),
+            tol=float(self.config.get('tol', 1e-4)),
             random_state=42,
             verbose=0,
             warm_start=False
         )
-        logger.info(f"✓ Gradient Boosting model built with {self.config.get('n_estimators', 500)} estimators")
+        logger.info(f"✓ Gradient Boosting model built with Intel Extension acceleration and {self.config.get('n_estimators', 500)} estimators")
     
     def train(self, X_train: np.ndarray, y_train: np.ndarray,
               X_val: Optional[np.ndarray] = None, 

@@ -18,8 +18,14 @@ class MicrostructureFeatureCalculator:
     def _safe_div(a, b):
         with np.errstate(divide='ignore', invalid='ignore'):
             out = np.true_divide(a, b)
-            out[~np.isfinite(out)] = 0.0
-        return out
+            if np.isscalar(out):
+                # Return 0.0 for infinite, NaN, or very large values
+                return 0.0 if (not np.isfinite(out) or abs(out) > 1e10) else out
+            else:
+                # For arrays, set infinite/NaN/very large values to 0
+                mask = ~np.isfinite(out) | (np.abs(out) > 1e10)
+                out[mask] = 0.0
+                return out
 
     def add_features(self, df: pd.DataFrame) -> pd.DataFrame:
         df = df.copy()
