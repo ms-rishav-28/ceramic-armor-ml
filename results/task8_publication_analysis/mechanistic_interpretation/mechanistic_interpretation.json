@@ -1,0 +1,64 @@
+{
+  "title": "Mechanistic Interpretation with Literature References",
+  "generated_timestamp": "2025-10-30T17:58:12.106270",
+  "controlling_factors": {
+    "primary_factors": [
+      {
+        "factor": "Vickers Hardness",
+        "mechanism": "Projectile blunting and dwell",
+        "importance": 0.35
+      },
+      {
+        "factor": "Fracture Toughness",
+        "mechanism": "Crack propagation resistance",
+        "importance": 0.25
+      },
+      {
+        "factor": "Density",
+        "mechanism": "Momentum transfer and specific performance",
+        "importance": 0.15
+      }
+    ],
+    "secondary_factors": [
+      {
+        "factor": "Thermal Conductivity",
+        "mechanism": "Adiabatic heating management",
+        "importance": 0.12
+      },
+      {
+        "factor": "Young's Modulus",
+        "mechanism": "Stress wave propagation",
+        "importance": 0.08
+      },
+      {
+        "factor": "Specific Hardness",
+        "mechanism": "Weight-normalized performance",
+        "importance": 0.05
+      }
+    ]
+  },
+  "literature_validation": [
+    {
+      "mechanism": "Hardness-controlled projectile defeat",
+      "reference": "Medvedovski (2010)",
+      "validation": "Direct correlation between hardness and ballistic performance established"
+    },
+    {
+      "mechanism": "Toughness-controlled damage tolerance",
+      "reference": "Karandikar et al. (2009)",
+      "validation": "Multi-hit survivability depends on fracture toughness"
+    },
+    {
+      "mechanism": "Thermal response under impact",
+      "reference": "Holmquist & Johnson (2005)",
+      "validation": "Temperature effects on ceramic strength demonstrated"
+    }
+  ],
+  "physical_mechanisms": {
+    "hardness": "Controls projectile blunting through resistance to plastic deformation",
+    "toughness": "Prevents catastrophic crack propagation and enables damage tolerance",
+    "density": "Influences momentum transfer and wave impedance matching",
+    "thermal_conductivity": "Controls adiabatic heating response during high-velocity impact",
+    "elastic_modulus": "Affects stress wave propagation and crack deflection behavior"
+  }
+}

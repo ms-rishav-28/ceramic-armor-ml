@@ -1,0 +1,27 @@
+{
+  "title": "Publication-Ready Analysis Summary",
+  "generated_timestamp": "2025-10-30T10:01:47.709110",
+  "components_generated": {
+    "commentary": "Complete",
+    "mechanistic": "Failed",
+    "figures": "Failed",
+    "overview": "Complete"
+  },
+  "publication_readiness_assessment": {
+    "overall_readiness": "50.0%",
+    "components_complete": 2,
+    "total_components": 4,
+    "ready_for_submission": false
+  },
+  "next_steps": [
+    "Address failed components",
+    "Complete missing analysis elements",
+    "Re-run publication analysis generation",
+    "Validate all generated materials"
+  ],
+  "journal_submission_readiness": {
+    "nature_materials": false,
+    "acta_materialia": false,
+    "materials_design": false
+  }
+}

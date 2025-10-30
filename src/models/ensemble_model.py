@@ -1,7 +1,24 @@
 """
-Stacking Ensemble Model
-Combines XGBoost, CatBoost, Random Forest, Gradient Boosting with weighted ensemble
-Strict compliance to specification with zero deviations
+Stacking Ensemble Model with Complete Implementation and Zero Tolerance Standards.
+
+This module provides a comprehensive ensemble model implementation combining
+XGBoost, CatBoost, Random Forest, and Gradient Boosting with weighted ensemble
+stacking, strict compliance to specification, and comprehensive error handling.
+
+Classes:
+    EnsembleModel: Complete stacking ensemble with uncertainty quantification
+
+Example:
+    >>> config = {'meta_alpha': 1.0, 'method': 'stacking'}
+    >>> model_configs = {
+    ...     'xgboost': {'n_estimators': 1000},
+    ...     'catboost': {'iterations': 1000},
+    ...     'random_forest': {'n_estimators': 500},
+    ...     'gradient_boosting': {'n_estimators': 500}
+    ... }
+    >>> ensemble = EnsembleModel(config, model_configs, method='stacking')
+    >>> ensemble.train(X_train, y_train, X_val, y_val)
+    >>> predictions, uncertainties = ensemble.predict_with_uncertainty(X_test)
 """
 
 import numpy as np
@@ -10,8 +27,9 @@ from sklearn.ensemble import StackingRegressor, VotingRegressor
 from sklearn.linear_model import Ridge, Lasso
 from sklearn.model_selection import cross_val_score
 from sklearn.metrics import r2_score
-from typing import Dict, List, Tuple, Optional
-from loguru import logger
+from typing import Dict, List, Tuple, Optional, Union, Any
+import logging
+from pathlib import Path
 
 from .xgboost_model import XGBoostModel
 from .catboost_model import CatBoostModel
@@ -19,33 +37,113 @@ from .random_forest_model import RandomForestModel
 from .gradient_boosting_model import GradientBoostingModel
 from .base_model import BaseModel
 from src.utils.intel_optimizer import intel_opt
+from src.utils.logger import get_logger
+
+logger = get_logger(__name__)
 
 class EnsembleModel(BaseModel):
     """
-    Stacking ensemble combining multiple tree-based models
+    Complete stacking ensemble combining multiple tree-based models with zero tolerance standards.
+    
+    This class implements a comprehensive ensemble model that combines exactly four
+    tree-based models (XGBoost, CatBoost, Random Forest, Gradient Boosting) using
+    stacking or voting methods with complete error handling and uncertainty quantification.
     
     Architecture:
-    Level 0: XGBoost, CatBoost, Random Forest, Gradient Boosting
-    Level 1: Ridge regression meta-learner
+        Level 0: XGBoost, CatBoost, Random Forest, Gradient Boosting (base models)
+        Level 1: Ridge regression meta-learner (for stacking method)
+    
+    Attributes:
+        model_configs (Dict[str, Dict]): Configuration for each base model
+        method (str): Ensemble method ('stacking' or 'voting')
+        n_jobs (int): Number of CPU threads for parallel processing
+        base_models (Dict[str, BaseModel]): Dictionary of trained base models
+        optimal_weights (Optional[np.ndarray]): Optimized ensemble weights
+        
+    Example:
+        >>> config = {'meta_alpha': 1.0}
+        >>> model_configs = {
+        ...     'xgboost': {'n_estimators': 1000, 'learning_rate': 0.05},
+        ...     'catboost': {'iterations': 1000, 'depth': 8},
+        ...     'random_forest': {'n_estimators': 500, 'max_depth': 10},
+        ...     'gradient_boosting': {'n_estimators': 500, 'learning_rate': 0.05}
+        ... }
+        >>> ensemble = EnsembleModel(config, model_configs, method='stacking')
+        >>> ensemble.train(X_train, y_train)
+        >>> predictions = ensemble.predict(X_test)
     """
     
-    def __init__(self, config: Dict, model_configs: Dict, 
-                 method: str = 'stacking', n_jobs: int = 20):
+    def __init__(self, config: Dict[str, Any], model_configs: Dict[str, Dict[str, Any]], 
+                 method: str = 'stacking', n_jobs: int = 20) -> None:
         """
-        Initialize ensemble model
+        Initialize ensemble model with comprehensive validation.
         
         Args:
-            config: Ensemble configuration
-            model_configs: Configuration for each base model
-            method: 'stacking' or 'voting'
-            n_jobs: Number of CPU threads
+            config: Ensemble configuration dictionary containing:
+                - meta_alpha (float): Ridge regression alpha for meta-learner (default: 1.0)
+                - weights (Dict[str, float]): Model weights for voting ensemble
+            model_configs: Configuration dictionaries for each base model:
+                - xgboost: XGBoost configuration
+                - catboost: CatBoost configuration  
+                - random_forest: Random Forest configuration
+                - gradient_boosting: Gradient Boosting configuration
+            method: Ensemble method ('stacking' or 'voting')
+            n_jobs: Number of CPU threads for parallel processing
+            
+        Raises:
+            TypeError: If config or model_configs are not dictionaries
+            ValueError: If method is invalid or required model configs missing
+            RuntimeError: If ensemble initialization fails
+            
+        Example:
+            >>> config = {'meta_alpha': 1.0}
+            >>> model_configs = {
+            ...     'xgboost': {'n_estimators': 1000},
+            ...     'catboost': {'iterations': 1000},
+            ...     'random_forest': {'n_estimators': 500},
+            ...     'gradient_boosting': {'n_estimators': 500}
+            ... }
+            >>> ensemble = EnsembleModel(config, model_configs)
         """
-        super().__init__('ensemble', config)
-        self.model_configs = model_configs
-        self.method = method
-        self.n_jobs = n_jobs
-        self.base_models = {}
-        self.build_model()
+        try:
+            # Validate inputs
+            if not isinstance(config, dict):
+                raise TypeError(f"config must be a dictionary, got {type(config)}")
+            
+            if not isinstance(model_configs, dict):
+                raise TypeError(f"model_configs must be a dictionary, got {type(model_configs)}")
+            
+            if method not in ['stacking', 'voting']:
+                raise ValueError(f"method must be 'stacking' or 'voting', got {method}")
+            
+            if not isinstance(n_jobs, int) or n_jobs < 1:
+                raise ValueError(f"n_jobs must be a positive integer, got {n_jobs}")
+            
+            # Validate required model configurations
+            required_models = ['xgboost', 'catboost', 'random_forest', 'gradient_boosting']
+            missing_models = set(required_models) - set(model_configs.keys())
+            if missing_models:
+                raise ValueError(f"Missing required model configurations: {missing_models}")
+            
+            # Validate each model config is a dictionary
+            for model_name, model_config in model_configs.items():
+                if not isinstance(model_config, dict):
+                    raise ValueError(f"Configuration for {model_name} must be a dictionary, "
+                                   f"got {type(model_config)}")
+            
+            super().__init__('ensemble', config)
+            self.model_configs = model_configs
+            self.method = method
+            self.n_jobs = n_jobs
+            self.base_models: Dict[str, BaseModel] = {}
+            self.optimal_weights: Optional[np.ndarray] = None
+            
+            logger.info(f"Initializing EnsembleModel with method='{method}', n_jobs={n_jobs}")
+            self.build_model()
+            
+        except Exception as e:
+            logger.error(f"Failed to initialize EnsembleModel: {e}")
+            raise RuntimeError(f"EnsembleModel initialization failed: {e}") from e
     
     def build_model(self):
         """Build ensemble model with strict compliance to specification"""

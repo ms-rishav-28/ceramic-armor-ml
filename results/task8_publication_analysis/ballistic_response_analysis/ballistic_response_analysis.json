@@ -1,0 +1,54 @@
+{
+  "title": "Ballistic Response Controlling Factors Analysis",
+  "generated_timestamp": "2025-10-30T17:58:12.106270",
+  "primary_factors": [
+    {
+      "factor": "Vickers Hardness",
+      "importance": 0.35,
+      "mechanism": "Projectile blunting and dwell",
+      "physical_basis": "Resistance to plastic deformation under indentation"
+    },
+    {
+      "factor": "Fracture Toughness",
+      "importance": 0.25,
+      "mechanism": "Crack propagation resistance",
+      "physical_basis": "Critical stress intensity for crack propagation"
+    },
+    {
+      "factor": "Density",
+      "importance": 0.15,
+      "mechanism": "Momentum transfer and specific performance",
+      "physical_basis": "Mass per unit volume affecting impact dynamics"
+    }
+  ],
+  "mechanism_hierarchy": [
+    {
+      "rank": 1,
+      "mechanism": "Projectile Blunting",
+      "controlling_property": "Hardness",
+      "importance_score": 9,
+      "physical_description": "Surface hardness causes projectile tip deformation and mushrooming"
+    },
+    {
+      "rank": 2,
+      "mechanism": "Crack Propagation Control",
+      "controlling_property": "Fracture Toughness",
+      "importance_score": 8,
+      "physical_description": "Toughness prevents catastrophic crack propagation"
+    },
+    {
+      "rank": 3,
+      "mechanism": "Momentum Transfer",
+      "controlling_property": "Density",
+      "importance_score": 6,
+      "physical_description": "Density controls momentum transfer efficiency"
+    }
+  ],
+  "physical_reasoning": {
+    "projectile_defeat": "High hardness causes projectile blunting through plastic deformation resistance",
+    "damage_tolerance": "Fracture toughness controls crack propagation velocity and arrest capability",
+    "momentum_transfer": "Density affects acoustic impedance and energy transfer efficiency",
+    "thermal_response": "Thermal properties control adiabatic heating and thermal shock resistance",
+    "stress_distribution": "Elastic properties affect stress wave propagation and spall formation"
+  }
+}
